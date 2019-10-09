@@ -3,7 +3,7 @@ package chess;
 
 public abstract class Piece {
 	
-	Color color;
+	protected Color color;
 	
 	protected Square position;
 	
@@ -11,4 +11,6 @@ public abstract class Piece {
 	public void movePiece();
 	
 	public boolean isMoveAllowed();
+	
+	public boolean makeCopy(); // copy of piece -> no reference
 }

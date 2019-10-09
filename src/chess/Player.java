@@ -3,13 +3,16 @@ package chess;
 
 public class Player {
 	
-	Color color;
+	private Color color;
 	
-	Piece[] pieces;
+	private String name;
+	
+	private Piece[] pieces; // only active pieces?
 	
 	
-	Player() {
-		
+	public Player(Color c, String playerName) {
+		color = c;
+		name = playerName;
 	}
 	
 	public void movePiece(String moveDescription) {
