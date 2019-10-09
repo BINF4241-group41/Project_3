@@ -3,8 +3,10 @@ package chess;
 
 public class Player {
 	
-	// color (enum?)
+	Color color;
+	
 	Piece[] pieces;
+	
 	
 	Player() {
 		

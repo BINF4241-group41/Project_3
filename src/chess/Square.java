@@ -3,8 +3,10 @@ package chess;
 
 public class Square {
 	
-	// color (enum?)
+	Color color;
+	
 	// position (might not be implemented)
+	
 	
 	public Square() {
 		

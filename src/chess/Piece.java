@@ -3,7 +3,8 @@ package chess;
 
 public abstract class Piece {
 	
-	// color (enum?)
+	Color color;
+	
 	protected Square position;
 	
 	
