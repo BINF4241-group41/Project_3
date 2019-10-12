@@ -13,4 +13,6 @@ public abstract class Piece {
 	public boolean isMoveAllowed();
 	
 	public boolean makeCopy(); // copy of piece -> no reference
+
+	public String toString();
 }

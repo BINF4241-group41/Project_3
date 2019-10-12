@@ -5,10 +5,8 @@ public class Square {
 	
 	private final Color color;
 
-	// TODO: Implement file, rank in better way
-
-	private final Rank rank; // horizontal row, labeled 1-8, starting from white's side of the board
-	private final File file; // vertical column, labeled a-h, starting from left (white's view)
+	private final Rank rank;
+	private final File file;
 	
 	private Piece piece = null;
 	

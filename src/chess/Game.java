@@ -3,7 +3,7 @@ package chess;
 
 public class Game {
 	
-	private Square[8][8] gameBoard; // rank (horizontal, starting at bottom (for white)) x file (vertical, starting left (for white))
+	private Square[8][8] gameBoard; // rank x file (gameBoard[0][7] == 1h)
 	
 	private Player whitePlayer;
 	private Player blackPlayer;
@@ -29,7 +29,7 @@ public class Game {
 				File file;
 
 				(file + rank) % 2 == 0 ? color = BLACK : color = WHITE;
-				rank = Rank.valueof(Integer.toString(rankCount)); // 1 -> (Rank) 1, ...
+				rank = Rank.valueof(Integer.toString(rankCount + 1)); // 1 -> (Rank) 1, ...
 				file = Character.toString((char) (fileCount + 97)); // 1 -> a, 2 -> b, ...
 
 				gameBoard[rankCount][fileCount] = new Square(color, rank, file);
@@ -60,6 +60,16 @@ public class Game {
 
 
 	public String toString() {
+		string stringRepresentation;
+
+		for (int rank = 7; rank >= 0; --rank) { // horizontal (1-8)
+			for (int file = 0; file < 8; ++file) { // vertical (a-h)
+				stringRepresentation += "[";
+				stringRepresentation += (gameBoard[rank][file].getPiece() ? gameBoard[rank][file].getPiece().toString() : "");
+				stringRepresentation += "]";
+			}
+			stringRepresentation += "\n";
+		}
 		return "";
 	}
 }
