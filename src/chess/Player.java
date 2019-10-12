@@ -15,7 +15,7 @@ public class Player {
 		name = playerName;
 	}
 	
-	public void movePiece(String moveDescription) {
+	public void movePiece(Piece p, Rank r, File f) {
 		
 	}
 }
