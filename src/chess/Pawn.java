@@ -9,16 +9,22 @@ public class Pawn extends Piece implements ActPiece{
         this.position=position;
         this.name="P";
     }
+
     public String toString(){
 		return "["+color.getColorDescription()+name+"]";
     }
+
     public boolean makeCopy(){
         return new Pawn(this); //i've to check if it works or not
     }
-    public boolean isMoveAllowed(Square mov){
-        if(mov.getFile().distance(position.getFile())==1){
-            if(mov.getRank().sameRank(position.getRank()))return true;
+
+    public boolean isMoveAllowed(Square mov) {
+        if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) == 1) {
+            if (mov.getRank() == position.getRank()) return true;
         }
+
+        // TODO: Can eat enemy players pieces diagonally (Rank +/- 1, File + 1).
+
         return false;
     }
 }

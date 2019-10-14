@@ -16,6 +16,7 @@ public class Bishop extends Piece implements ActPiece{
     public String toString(){
 		return "["+color.getColorDescription()+name+"]";
     }
+
     public boolean isMoveAllowed(Square mov){
         int y=position.getRank().getValue()-mov.getRank().getValue(); // |x-x1|=|y-y1|
         int x=position.getFile().getValue()-mov.getFile().getValue();

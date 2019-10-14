@@ -10,6 +10,7 @@ public class King extends Piece implements ActPiece{
         this.position=position;
         this.name="K";
     }
+
     public boolean makeCopy(){
         return new King(this); //i've to check if it works or not
     }
@@ -17,13 +18,14 @@ public class King extends Piece implements ActPiece{
     public String toString(){
 		return "["+color.getColorDescription()+name+"]";
     }
-    public boolean isMoveAllowed(Square mov){
-      
-        if(! position.getRank().sameRank(mov.getRank()))return false;
-       if(! position.getFile().sameFile(mov.getFile()))return false;
 
-       if(mov.getRank().distance(position.getRank())>MAX_MOV) return false;
-       if(mov.getFile().distance(position.getFile())>MAX_MOV) return false; 
-       return true;
+    public boolean isMoveAllowed(Square mov) {
+      
+        if (position.getRank() != mov.getRank() )return false;
+        if (position.getFile() != mov.getFile()) return false;
+
+        if (Math.abs(mov.getRank().getValue() - position.getRank().getValue()) > MAX_MOV) return false;
+        if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) > MAX_MOV) return false;
+        return true;
     }
 }
