@@ -12,7 +12,4 @@ public class King extends Piece{
     public boolean makeCopy(){
         return new King(this); //i've to check if it works or not
     }
-    public Square getSquare(){
-        return position; // return the square where it is
-    }
 }

@@ -1,6 +1,5 @@
 package chess;
 
-
 // horizontal row, labeled 1-8, starting from white's side of the board
 enum Rank {
     1,

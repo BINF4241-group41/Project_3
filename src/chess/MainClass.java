@@ -5,8 +5,6 @@ import org.graalvm.compiler.graph.Position;
 public class MainClass {
 	
 	public static void main(String args[]) {
-		King king = new King();
-		System.out.println("king"+king.getSquare());
 		return;
 	}
 }
