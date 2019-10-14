@@ -2,7 +2,7 @@ package chess;
 
 
 // vertical column, labeled a-h, starting from left (white's view)
-enum File {
+public enum File {
     a,
     b,
     c,
