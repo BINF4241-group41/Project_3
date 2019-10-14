@@ -16,5 +16,19 @@ public class Horse extends Piece implements ActPiece{
     public String toString(){
 		return "["+color.getColorDescription()+name+"]";
     }
-
+    public boolean isMoveAllowed(Square mov){
+        if(position.getFile().getValue()+2==mov.getFile().getValue()){
+            if(position.getRank().getValue()+1==mov.getRank.getValue()||position.getRank().getValue()-1==mov.getRank.getValue())return true;
+        }
+        if(position.getFile().getValue()+1==mov.getFile().getValue()){
+            if(position.getRank().getValue()+2==mov.getRank.getValue()||position.getRank().getValue()-2==mov.getRank.getValue())return true;
+        }
+        if(position.getFile().getValue()-1==mov.getFile().getValue()){
+            if(position.getRank().getValue()+2==mov.getRank.getValue()||position.getRank().getValue()-2==mov.getRank.getValue())return true;
+        }
+        if(position.getFile().getValue()-2==mov.getFile().getValue()){
+            if(position.getRank().getValue()+1==mov.getRank.getValue()||position.getRank().getValue()-1==mov.getRank.getValue())return true;
+        }
+    return false;
+    }
 }
