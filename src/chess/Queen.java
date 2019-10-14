@@ -17,9 +17,15 @@ public class Queen extends Piece implements ActPiece{
 		return "["+color.getColorDescription()+name+"]";
     }
 
-    public boolean isMoveAllowed(Square mov){
-        int diff=position.getFile().distance(mov.getFile());
-        
+    public boolean isMoveAllowed(Square mov){ //bishop+tower
+        int y=position.getRank().getValue()-mov.getRank().getValue(); // |x-x1|=|y-y1| 
+        int x=position.getFile().getValue()-mov.getFile().getValue();
+        if(x<0^y<0)x=-x;
+        if (x==y)return true; //check the peices between
+        if(! mov.getRank().sameRank(position.getRank()))return false;
+        if(! mov.getFile().sameFile(position.getFile()))return false;
+        //check if there're any pieces between
+        return true;
     }
 
 }

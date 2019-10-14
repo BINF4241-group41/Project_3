@@ -54,11 +54,11 @@ public enum Rank {
    }
    */
 
-   // Can directly compare. -> redundant?
+    // Can directly compare. -> redundant?
    /*
     public boolean sameRank(Rank r){
         if(r==this)return true;
         return false;
     }
     */
-}
+    }
