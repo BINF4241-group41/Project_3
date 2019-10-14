@@ -17,8 +17,11 @@ public enum File {
     private File(int value) {
         this.value = value;
     }
+    public int getValue(){
+        retunr value;
+    }
 
-    public File add(int n) {
+    public File add(int n) { // I'm not sure that they could be useful
     	int valore=(this.ordinal() + n);
     	if(valore>7) return  File.out;
     	return File.values()[valore];
@@ -27,6 +30,10 @@ public enum File {
     	int valore=(this.ordinal() - n);
     	if (valore<0)return File.out;
     	return File.values()[valore];
+    }
+    public boolean sameFile(File r){
+        if(r==this)return true;
+        return false;
     }
     public int distance(File file){
          if(this.value-file.value>0)return this.value-file.value;

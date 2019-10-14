@@ -1,9 +1,9 @@
 package chess;
 
-
 public class King extends Piece implements ActPiece{
 
     private final String name;
+    private static final int MAX_MOV=1;
 
     public King(Color color, Square position){
         this.color=color;
@@ -18,14 +18,12 @@ public class King extends Piece implements ActPiece{
 		return "["+color.getColorDescription()+name+"]";
     }
     public boolean isMoveAllowed(Square mov){
-       if(! position.getRank().sameRank(mov.getRank()))return false;
-       
-        boolean ok=false;
-        for(int i=-1;i<=1;i++){
-            for(int j=-1;j<=1;j++){
+      
+        if(! position.getRank().sameRank(mov.getRank()))return false;
+       if(! position.getFile().sameFile(mov.getFile()))return false;
 
-            }
-
-        }
+       if(mov.getRank().distance(position.getRank())>MAX_MOV) return false;
+       if(mov.getFile().distance(position.getFile())>MAX_MOV) return false; 
+       return true;
     }
 }

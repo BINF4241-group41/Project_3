@@ -1,6 +1,6 @@
 package chess;
 
-public class Queen extends Piece{
+public class Queen extends Piece implements ActPiece{
 
     private final String name;
 
@@ -11,6 +11,15 @@ public class Queen extends Piece{
     }
     public boolean makeCopy(){
         return new Queen(this); //i've to check if it works or not
+    }
+
+    public String toString(){
+		return "["+color.getColorDescription()+name+"]";
+    }
+
+    public boolean isMoveAllowed(Square mov){
+        int diff=position.getFile().distance(mov.getFile());
+        
     }
 
 }
