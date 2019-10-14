@@ -15,6 +15,9 @@ public enum Rank {
         this.value = value;
     }
 
+    public int getRank(){
+        return value;
+    }
     public Rank add(int n) {
     	int valore=(this.ordinal() + n);
     	if(valore>7) return  Rank.out;
