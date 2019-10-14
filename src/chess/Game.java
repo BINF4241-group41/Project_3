@@ -21,18 +21,16 @@ public class Game {
 		whitePlayer = new Player(Color.WHITE, playerNames[0]);
 		blackPlayer = new Player(Color.BLACK, playerNames[1]);
 
-		for (int rankCount = 0; rankCount < 8; ++rankCount) { // horizontal (1-8)
-			for (int fileCount = 0; fileCount < 8; ++fileCount) { // vertical (a-h)
+		for (int rankCount = 1; rankCount <= 8; ++rankCount) { // horizontal (1-8)
+			for (int fileCount = 1; fileCount <= 8; ++fileCount) { // vertical (a-h)
 
 				Color color;
-				Rank rank;
-				File file;
-
 				(file + rank) % 2 == 0 ? color = BLACK : color = WHITE;
-				rank = Rank.valueof(Integer.toString(rankCount + 1)); // 1 -> (Rank) 1, ...
-				file = Character.toString((char) (fileCount + 97)); // 1 -> a, 2 -> b, ...
 
-				gameBoard[rankCount][fileCount] = new Square(color, rank, file);
+				Rank rank = Rank.valueof(rankCount); // 1 -> (Rank) 1, ...
+				File file = File.valueOf(fileCount); // 1 -> a, 2 -> b, ...
+
+				gameBoard[rankCount - 1][fileCount - 1] = new Square(color, rank, file);
 			}
 		}
 
