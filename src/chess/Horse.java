@@ -16,18 +16,19 @@ public class Horse extends Piece implements ActPiece{
     public String toString(){
 		return "["+color.getColorDescription()+name+"]";
     }
+
     public boolean isMoveAllowed(Square mov){
-        if(position.getFile().getValue()+2==mov.getFile().getValue()){
-            if(position.getRank().getValue()+1==mov.getRank.getValue()||position.getRank().getValue()-1==mov.getRank.getValue())return true;
+        if (position.getFile().getValue() + 2 == mov.getFile().getValue()){
+            if (Math.abs(position.getRank().getValue() - mov.getRank.getValue()) == 1) return true;
         }
-        if(position.getFile().getValue()+1==mov.getFile().getValue()){
-            if(position.getRank().getValue()+2==mov.getRank.getValue()||position.getRank().getValue()-2==mov.getRank.getValue())return true;
+        if (position.getFile().getValue() + 1 == mov.getFile().getValue()) {
+            if (Math.abs(position.getRank().getValue() - mov.getRank.getValue()) == 2) return true;
         }
-        if(position.getFile().getValue()-1==mov.getFile().getValue()){
-            if(position.getRank().getValue()+2==mov.getRank.getValue()||position.getRank().getValue()-2==mov.getRank.getValue())return true;
+        if (position.getFile().getValue() - 1 == mov.getFile().getValue()) {
+            if (Math.abs(position.getRank().getValue() - mov.getRank.getValue()) == 2) return true;
         }
-        if(position.getFile().getValue()-2==mov.getFile().getValue()){
-            if(position.getRank().getValue()+1==mov.getRank.getValue()||position.getRank().getValue()-1==mov.getRank.getValue())return true;
+        if (position.getFile().getValue() - 2 == mov.getFile().getValue()) {
+            if (Math.abs(position.getRank().getValue() - mov.getRank.getValue()) == 1)return true;
         }
     return false;
     }

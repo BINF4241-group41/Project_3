@@ -12,12 +12,14 @@ public class Tower extends Piece implements ActPiece{
     public String toString(){
 		return "["+color.getColorDescription()+name+"]";
     }
+
     public boolean makeCopy(){
         return new Tower(this); //i've to check if it works or not
     }
+
     public boolean isMoveAllowed(Square mov){
-        if(! mov.getRank().sameRank(position.getRank()))return false;
-        if(! mov.getFile().sameFile(position.getFile()))return false;
+        if (mov.getRank() != position.getRank()) return false;
+        if (mov.getFile() != position.getFile()) return false;
         //check if there're any pieces between
         return true;
     } 

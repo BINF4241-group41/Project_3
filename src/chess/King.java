@@ -20,12 +20,12 @@ public class King extends Piece implements ActPiece{
     }
 
     public boolean isMoveAllowed(Square mov) {
-      
-        if (position.getRank() != mov.getRank() )return false;
-        if (position.getFile() != mov.getFile()) return false;
 
         if (Math.abs(mov.getRank().getValue() - position.getRank().getValue()) > MAX_MOV) return false;
         if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) > MAX_MOV) return false;
+
+        // TODO: Check boundaries.
+
         return true;
     }
 }
