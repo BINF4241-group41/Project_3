@@ -3,19 +3,38 @@ package chess;
 
 public class Square {
 	
-	private Color color;
+	private final Color color;
+
+	private final Rank rank;
+	private final File file;
 	
-	// position (might not be implemented)
+	private Piece piece = null;
 	
-	private Piece piece;
-	
-	
-	public Square(Color c) {
-		color = c;
+
+	public Square(Color color, Rank rank, File file) {
+
+		this.color = color;
+		this.rank = rank;
+		this.file = file;
 	}
-	
-	public Square(Color c, Piece p) {
-		color = c;
-		piece = makeCopy(p);
+
+	public void getPiece() {
+		return this.piece.makeCopy();
+	}
+
+	public void setPiece(Piece piece) {
+		this.piece = piece.makeCopy();
+	}
+
+	public void removePieve() {
+		this.piece = null;
+	}
+
+	public Rank getRank() {
+		return rank;
+	}
+
+	public File getFile() {
+		return file;
 	}
 }
