@@ -18,11 +18,11 @@ public class Pawn extends Piece implements ActPiece{
         return new Pawn(this); //i've to check if it works or not
     }
 
-    public boolean isMoveAllowed(Square mov) {
+    public boolean isMovePossible(Square mov) {
         if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) == 1) {
             if (mov.getRank() == position.getRank()) return true;
         }
-
+        
         // TODO: Can eat enemy players pieces diagonally (Rank +/- 1, File + 1).
 
         return false;

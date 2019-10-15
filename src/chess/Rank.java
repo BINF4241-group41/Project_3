@@ -8,8 +8,7 @@ public enum Rank {
     fifth(5),
     sixth(6),
     seventh(7),
-    eighth(8),
-    // out(10); // pieces shouldn't be able to be outside of the gameboard
+    eighth(8);
 
     private final int value;
     private static HashMap<Integer, Rank> intMap = new HashMap<>();
