@@ -17,10 +17,9 @@ public class Tower extends Piece implements ActPiece{
         return new Tower(this); //i've to check if it works or not
     }
 
-    public boolean isMoveAllowed(Square mov){
+    public boolean isMovePossible(Square mov){
         if (mov.getRank() != position.getRank()) return false;
         if (mov.getFile() != position.getFile()) return false;
-        //check if there're any pieces between
         return true;
     } 
 }

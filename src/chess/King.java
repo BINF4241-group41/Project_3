@@ -19,12 +19,13 @@ public class King extends Piece implements ActPiece{
 		return "["+color.getColorDescription()+name+"]";
     }
 
-    public boolean isMoveAllowed(Square mov) {
+    public boolean isMovePossible(Square mov) {
 
         if (Math.abs(mov.getRank().getValue() - position.getRank().getValue()) > MAX_MOV) return false;
         if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) > MAX_MOV) return false;
 
         // TODO: Check boundaries.
+        //reply TODO: you don't need to check the boundaries cause the input is limited
 
         return true;
     }

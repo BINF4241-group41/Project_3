@@ -17,11 +17,10 @@ public class Bishop extends Piece implements ActPiece{
 		return "["+color.getColorDescription()+name+"]";
     }
 
-    public boolean isMoveAllowed(Square mov){
+    public boolean isMovePossible(Square mov){
         int y=position.getRank().getValue()-mov.getRank().getValue(); // |x-x1|=|y-y1|
         int x=position.getFile().getValue()-mov.getFile().getValue();
-        if(x<0^y<0)x=-x;
-        if (x==y)return true; //check the peices between
+        if (Math.abs(x)==Math.abs(y))return true; //check the peices between
         return false;
     }
 }
