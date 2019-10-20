@@ -39,7 +39,7 @@ public class Player {
 
 		boolean wasRemoved = activePieces.remove(matchedPiece);
 		if (wasRemoved) {
-			eatenPieces.add(p);
+			eatenPieces.add(matchedPiece);
 		}
 		return wasRemoved;
 	}

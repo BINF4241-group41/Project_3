@@ -5,16 +5,16 @@ public class Queen extends Piece implements ActPiece{
     private final String name;
 
     public Queen(Color color, Square position){
-        this.color=color;
-        this.position=position;
-        this.name="Q";
+        this.color = color;
+        this.position = (position != null ? position.makeCopy() : null);
+        this.name = "Q";
     }
-    public boolean makeCopy(){
-        return new Queen(this); //i've to check if it works or not
+    public Queen makeCopy(){
+        return new Queen(this.color, this.position);
     }
 
     public String toString(){
-		return "["+color.getColorDescription()+name+"]";
+		return "[" + color.getColorDescription() + name + "]";
     }
 
     public boolean isMovePossible(Square mov){ //bishop+tower

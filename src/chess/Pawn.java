@@ -1,21 +1,22 @@
 package chess;
 
+
 public class Pawn extends Piece implements ActPiece{
 
     private final String name;
 
     public Pawn(Color color, Square position) {
-        this.color=color;
-        this.position=position;
-        this.name="P";
+        this.color = color;
+        this.position = (position != null ? position.makeCopy() : null);
+        this.name = "P";
     }
 
     public String toString(){
-		return "["+color.getColorDescription()+name+"]";
+		return "[" + color.getColorDescription() + name + "]";
     }
 
-    public boolean makeCopy(){
-        return new Pawn(this); //i've to check if it works or not
+    public Pawn makeCopy(){
+        return new Pawn(this.color, this.position);
     }
 
     public boolean isMovePossible(Square mov) {

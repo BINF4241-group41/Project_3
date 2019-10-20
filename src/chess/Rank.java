@@ -1,6 +1,10 @@
 package chess;
 
+import java.util.HashMap;
+
+
 public enum Rank {
+
     first(1),
     second(2),
     third(3),
@@ -10,8 +14,10 @@ public enum Rank {
     seventh(7),
     eighth(8);
 
+
     private final int value;
     private static HashMap<Integer, Rank> intMap = new HashMap<>();
+
 
     // static initializer
     static {
@@ -26,7 +32,7 @@ public enum Rank {
 
     // get File from int
     public static Rank valueOf(int rankType) {
-        return (Rank) map.get(rankType);
+        return (Rank) intMap.get(rankType);
     }
 
     public int getValue(){

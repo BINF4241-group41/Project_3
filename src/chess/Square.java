@@ -18,15 +18,17 @@ public class Square {
 		this.file = file;
 	}
 
-	public void getPiece() {
-		return this.piece.makeCopy();
+	public Piece getPiece() {
+		return (this.piece != null ? this.piece.makeCopy() : null);
 	}
 
 	public void setPiece(Piece piece) {
-		this.piece = piece.makeCopy();
+		if (piece != null) {
+			this.piece = piece.makeCopy();
+		}
 	}
 
-	public void removePieve() {
+	public void removePiece() {
 		this.piece = null;
 	}
 
@@ -36,5 +38,9 @@ public class Square {
 
 	public File getFile() {
 		return file;
+	}
+
+	public Square makeCopy() {
+		return new Square(this.color, this.rank, this.file);
 	}
 }

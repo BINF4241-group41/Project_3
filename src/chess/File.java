@@ -1,6 +1,10 @@
 package chess;
 
+import java.util.HashMap;
+
+
 public enum File {
+
     a(1),
     b(2),
     c(3),
@@ -10,8 +14,10 @@ public enum File {
     g(7),
     h(8);
 
+
     private final int value;
     private static HashMap<Integer, File> intMap = new HashMap<>();
+
 
     // static initializer
     static {
@@ -26,7 +32,7 @@ public enum File {
 
     // get File from int
     public static File valueOf (int fileType) {
-        return (File) map.get(fileType);
+        return (File) intMap.get(fileType);
     }
 
     public int getValue(){

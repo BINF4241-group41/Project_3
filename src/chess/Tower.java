@@ -1,20 +1,22 @@
 package chess;
 
+
 public class Tower extends Piece implements ActPiece{
    
     private final String name;
     
     public Tower(Color color, Square position){
-        this.color=color;
-        this.position=position;
-        this.name="T";
-    }
-    public String toString(){
-		return "["+color.getColorDescription()+name+"]";
+        this.color = color;
+        this.position = (position != null ? position.makeCopy() : null);
+        this.name = "T";
     }
 
-    public boolean makeCopy(){
-        return new Tower(this); //i've to check if it works or not
+    public String toString(){
+		return "[" + color.getColorDescription() + name + "]";
+    }
+
+    public Tower makeCopy() {
+        return new Tower(this.color, this.position);
     }
 
     public boolean isMovePossible(Square mov){

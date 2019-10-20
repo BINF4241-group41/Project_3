@@ -6,11 +6,15 @@ public abstract class Piece {
 	protected Color color;
 	protected Square position;
 
-	public void movePiece(Square position){
-        this.position=position;
+	public void movePiece(Square position) {
+		this.position = position.makeCopy();
     }
 
-    public File getFile() { return (position ? position.getFile() : null); }
+    public File getFile() { return (position != null ? position.getFile() : null); }
 
-	public Rank getRank() { return (position ? position.getRank() : null); }
+	public Rank getRank() { return (position != null ? position.getRank() : null); }
+
+	public abstract Piece makeCopy();
+
+	public abstract boolean isMovePossible(Square s);
 }
