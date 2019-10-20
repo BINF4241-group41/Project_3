@@ -40,7 +40,72 @@ public class Game {
 
 	// set up pieces at start of game
 	private void piecesSetup() {
-		// set up pieces at start of game
+
+		// set up Pawns
+		for (int i = 0; i < 7; ++i) {
+			Pawn whitePawn = new Pawn(Color.WHITE, gameBoard[1][i]);
+			gameBoard[1][i].setPiece(whitePawn);
+			whitePlayer.addPiece(whitePawn);
+			Pawn blackPawn = new Pawn(Color.BLACK, gameBoard[6][i]);
+			gameBoard[6][i].setPiece(blackPawn);
+			blackPlayer.addPiece(blackPawn);
+		}
+
+		Tower whiteTower = new Tower(Color.WHITE, gameBoard[0][0]);
+		gameBoard[0][0].setPiece(whiteTower);
+		whitePlayer.addPiece(whiteTower);
+		whiteTower = new Tower(Color.WHITE, gameBoard[0][7]);
+		gameBoard[0][7].setPiece(whiteTower);
+
+		Tower blackTower = new Tower(Color.BLACK, gameBoard[7][0]);
+		gameBoard[7][0].setPiece(blackTower);
+		blackPlayer.addPiece(blackTower);
+		blackTower = new Tower(Color.BLACK, gameBoard[7][7]);
+		gameBoard[7][7].setPiece(blackTower);
+		blackPlayer.addPiece(blackTower);
+
+		Horse whiteHorse = new Horse(Color.WHITE, gameBoard[0][1]);
+		gameBoard[0][1].setPiece(whiteHorse);
+		whitePlayer.addPiece(whiteHorse);
+		whiteHorse = new Horse(Color.WHITE, gameBoard[0][6]);
+		gameBoard[0][6].setPiece(whiteHorse);
+
+		Horse blackHorse = new Horse(Color.BLACK, gameBoard[7][1]);
+		gameBoard[7][1].setPiece(blackHorse);
+		blackPlayer.addPiece(blackHorse);
+		blackHorse = new Horse(Color.BLACK, gameBoard[7][6]);
+		gameBoard[7][6].setPiece(blackHorse);
+		blackPlayer.addPiece(blackHorse);
+
+		Bishop whiteBishop = new Bishop(Color.WHITE, gameBoard[0][2]);
+		gameBoard[0][2].setPiece(whiteBishop);
+		whitePlayer.addPiece(whiteBishop);
+		whiteBishop = new Bishop(Color.WHITE, gameBoard[0][5]);
+		gameBoard[0][5].setPiece(whiteBishop);
+		whitePlayer.addPiece(whiteBishop);
+
+		Bishop blackBishop = new Bishop(Color.BLACK, gameBoard[7][2]);
+		gameBoard[7][2].setPiece(blackBishop);
+		blackPlayer.addPiece(blackBishop);
+		blackBishop = new Bishop(Color.BLACK, gameBoard[7][5]);
+		gameBoard[7][5].setPiece(blackBishop);
+		blackPlayer.addPiece(blackBishop);
+
+		Queen whiteQueen = new Queen(Color.WHITE, gameBoard[0][3]);
+		gameBoard[0][3].setPiece(whiteQueen);
+		whitePlayer.addPiece(whiteQueen);
+
+		Queen blackQueen = new Queen(Color.BLACK, gameBoard[7][3]);
+		gameBoard[7][3].setPiece(blackQueen);
+		blackPlayer.addPiece(blackQueen);
+
+		King whiteKing = new King(Color.WHITE, gameBoard[0][4]);
+		gameBoard[0][4].setPiece(whiteKing);
+		whitePlayer.addPiece(whiteKing);
+		
+		King blackKing = new King(Color.BLACK, gameBoard[7][4]);
+		gameBoard[7][4].setPiece(blackKing);
+		blackPlayer.addPiece(blackKing);
 	}
 
 

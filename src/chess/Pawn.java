@@ -4,7 +4,7 @@ public class Pawn extends Piece implements ActPiece{
 
     private final String name;
 
-    public Pawn(Color color, Square position){
+    public Pawn(Color color, Square position) {
         this.color=color;
         this.position=position;
         this.name="P";
