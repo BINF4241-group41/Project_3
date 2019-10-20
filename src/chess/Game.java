@@ -7,6 +7,8 @@ public class Game {
 	
 	private Player whitePlayer;
 	private Player blackPlayer;
+
+	private Player nextPlayer; // can play next move
 	
 	
 	public Game(String[] playerNames) {
@@ -102,20 +104,173 @@ public class Game {
 		King whiteKing = new King(Color.WHITE, gameBoard[0][4]);
 		gameBoard[0][4].setPiece(whiteKing);
 		whitePlayer.addPiece(whiteKing);
-		
+
 		King blackKing = new King(Color.BLACK, gameBoard[7][4]);
 		gameBoard[7][4].setPiece(blackKing);
 		blackPlayer.addPiece(blackKing);
 	}
 
 
-	public boolean isValidMove(String moveDescription) {
-		// determine piece
-		// check if valid move
+	// check if the input string could describe a valid move (excluding special cases)
+	public boolean isWellformedMoveDescription(String moveDescription) {
+
+		// TODO: Maybe use regex?
+
+		// check length
+		if (Character.isUpperCase(moveDescription.charAt(0))) {
+			if (moveDescription.contains("x")) {
+				return (4 <= moveDescription.length() && moveDescription.length() <= 6);
+			}
+			else {
+				return (3 <= moveDescription.length() && moveDescription.length() <= 5);
+			}
+		}
+		// Pawn
+		else {
+			if (moveDescription.contains("x")) {
+				return (3 <= moveDescription.length() && moveDescription.length() <= 5);
+			}
+			else {
+				return (2 <= moveDescription.length() && moveDescription.length() <= 4);
+			}
+		}
+
+		if (Character.isUpperCase(moveDescription.charAt(0))) {
+			pieceString = moveDescription.substring(0, 1);
+			if (!pieceString.contains("T") && !pieceString.contains("N") && !pieceString.contains("B") && !pieceString.contains("Q") && !pieceString.contains("K")) {
+				return false;
+			}
+		}
+
+		// check for valid destination
+		String inputRank = moveDescription.substring(moveDescription.length() - 1)); // last char -> String
+		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last char -> String
+
+		if (File.valueof(inputFile) == null || Rank.valueof(inputRank) == null) {
+			return false;
+		}
+
+		int startIndex = (Character.isUpperCase(moveDescription.charAt(0)) ? 1 : 0); // if first char is piecetype, ignore
+		int endIndex = (moveDescription.contains("x") ? moveDescription.length() - 3 : moveDescription.length() - 2); // ignore destination and x if set
+		String originString = moveDescription.substring(startIndex, endIndex);
+
+		if (originString.length() == 1) {
+			if (File.valueOf(Integer.valueOf(originString)) == null) {
+				return false;
+			}
+		}
+		else if (originString.length() == 2) {
+			if (File.valueOf(Integer.valueOf(originString.substring(0, originString.length() - 1))) == null) {
+				return false;
+			}
+			if (Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1))) == null) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 
-	public void makeMove(String moveDescription) {
+	// check if the piece can be uniquely identified by the moveDescription (excluding special cases)
+	public boolean isValidMove(String moveDescription) {
+
+
+		// Check for obstacles (except when knight).
+
+
+		// destination
+		String inputRank = moveDescription.substring(moveDescription.length() - 1)); // last char -> String
+		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last char -> String
+
+		Square destinationSquare = gameBoard[inputRank.getValue()][inputFile.getValue()];
+
+
+		String pieceString = "P";
+
+		if (Character.isUpperCase(moveDescription.charAt(0))) {
+			pieceString = String.valueOf(moveDescription.charAt(0));
+		}
+
+		pieces = nextPlayer.getActivePieces();
+		ArrayList<Piece> matchedPieces = new ArrayList<Piece>();
+
+		// match piece type
+		for (Piece p : pieces) {
+			if (p.toString() == pieceString) {
+				matchedPieces.add(p);
+			}
+		}
+
+		// remove pieces which can't make this move
+		Iterator<Piece> iterator = matchedPieces.iterator();
+
+		while (iterator.hasNext()) {
+			if (!iterator.next().isMovePossible(destinationSquare)) {
+				iterator.remove();
+			}
+		}
+
+		// no pieces could be matched
+		if (matchedPieces.size() < 1) {
+			return false;
+		}
+
+		if (matchedPieces.size() > 1) {
+
+			File originFile = null;
+			Rank originRank = null;
+
+			int startIndex = (Character.isUpperCase(moveDescription.charAt(0)) ? 1 : 0); // if first char is piecetype, ignore
+			int endIndex = (moveDescription.contains("x") ? moveDescription.length() - 3 : moveDescription.length() - 2); // ignore destination and x if set
+
+			String originString = moveDescription.substring(startIndex, endIndex);
+
+			// insufficient information -> multiple matches
+			if (originString.length() == 0) {
+				return false;
+			}
+
+			// TODO: Implement special cases.
+
+			else if (originString.length() == 1) {
+				originFile = File.valueOf(Integer.valueOf(originString));
+			}
+			else if (originString.length() == 2) {
+				originFile = File.valueOf(Integer.valueOf(originString.substring(0, originString.length() - 1)));
+				originRank = Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1)));
+			}
+			else {
+				// special cases
+				return false;
+			}
+
+			Iterator<Piece> iterator = matchedPieces.iterator();
+
+			while (iterator.hasNext()) {
+				if (iterator.next().getFile() != originFile) {
+					iterator.remove();
+				}
+				if (originRank != null && iterator.next().getRank() != originRank) {
+					iterator.remove();
+				}
+			}
+
+			if (matchedPieces.length() != 1) {
+				return false;
+			}
+		}
+	}
+
+
+	public boolean makeMove(String moveDescription) {
+
+		// Lots of duplicate code when checking/validating move.
+
+		if (!isWellformedMoveDescription(moveDescription)) {
+			return false;
+		}
+
 		if (isValidMove(moveDescription)) {
 			// make move
 		}

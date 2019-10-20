@@ -9,4 +9,8 @@ public abstract class Piece {
 	public void movePiece(Square position){
         this.position=position;
     }
+
+    public File getFile() { return (position ? position.getFile() : null); }
+
+	public Rank getRank() { return (position ? position.getRank() : null); }
 }

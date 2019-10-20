@@ -1,63 +1,35 @@
 package chess;
 
-public enum Rank {
-    first(1),
-    second(2),
-    third(3),
-    fourth(4),
-    fifth(5),
-    sixth(6),
-    seventh(7),
-    eighth(8);
+public enum File {
+    a(1),
+    b(2),
+    c(3),
+    d(4),
+    e(5),
+    f(6),
+    g(7),
+    h(8);
 
     private final int value;
-    private static HashMap<Integer, Rank> intMap = new HashMap<>();
+    private static HashMap<Integer, File> intMap = new HashMap<>();
 
     // static initializer
     static {
-        for (Rank rank : Rank.values()) {
-            intMap.put(rank.value, rank);
+        for (File file : File.values()) {
+            intMap.put(file.value, file);
         }
     }
 
-    private Rank(int value) {
+    private File(int value) {
         this.value = value;
     }
 
     // get File from int
-    public static RankType valueOf(int rankType) {
-        return (RankType) map.get(rankType);
+    public static File valueOf (int fileType) {
+        return (File) map.get(fileType);
     }
 
     public int getValue(){
         return value;
     }
-
-    // Enum shouldn't contain game logic (separation of concerns).
-    /*
-    public Rank add(int n) {
-    	int valore=(this.ordinal() + n);
-    	if(valore>7) return  Rank.out;
-    	return Rank.values()[valore];
-    }
-
-    public Rank sub(int n) {
-    	int valore=(this.ordinal() - n);
-    	if (valore<0)return Rank.out;
-    	return Rank.values()[valore];
-    }
-
-    public int distance(Rank r){
-        if(this.value-r.value>0)return this.value-r.value;
-        return r.value-this.value;
-   }
-   */
-
-    // Can directly compare. -> redundant?
-   /*
-    public boolean sameRank(Rank r){
-        if(r==this)return true;
-        return false;
-    }
-    */
-    }
+}

@@ -20,17 +20,39 @@ public class Player {
 	}
 
 	public void addPiece(Piece p) {
-		activePieces.add(p);
+		if (p != null) {
+			activePieces.add(p.makeCopy());
+		}
 	}
 
-	public boolean eatPiece(Piece p) {
-		boolean wasRemoved = activePieces.remove(p);
+	public boolean eatePiece(File file, Rank rank) {
+
+		Piece matchedPiece = null;
+
+		// find piece at this position
+		for (Piece p : activePieces) {
+			if (p.getFile() == file && p.getRank() == rank) {
+				matchedPiece = p;
+				break;
+			}
+		}
+
+		boolean wasRemoved = activePieces.remove(matchedPiece);
 		if (wasRemoved) {
 			eatenPieces.add(p);
 		}
 		return wasRemoved;
 	}
-	
+
+	public ArrayList<Piece> getActivePieces() {
+		ArrayList<Piece> piecesCopies = new ArrayList<Piece>();
+
+		for (Piece p : activePieces) {
+			piecesCopies.add(p.makeCopy());
+		}
+		return piecesCopies;
+	}
+
 	public void movePiece(Piece p, Rank r, File f) {
 		
 	}
