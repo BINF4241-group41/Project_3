@@ -19,9 +19,40 @@ public class Tower extends Piece {
         return new Tower (this.color, this.position);
     }
 
-    public boolean isMoveisMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
-        if (rank != position.getRank()) return false;
-        if (file != position.getFile()) return false;
-        return true;
+    public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
+        if (rank != position.getRank() && file != position.getFile()) {
+            return false;
+        }
+
+        if (rank != position.getRank()) {
+            int difference = position.getRank().getValue() - rank.getValue();
+
+            for (int i = 1; i <= Math.abs(difference); ++i) {
+                if (difference < 0) {
+                    i = -i;
+                }
+                if (gameBoard.isPositionOccupied(Rank.valueOf(rank.getValue() + i), file)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else if (file != position.getFile()) {
+            int difference = position.getFile().getValue() - file.getValue();
+
+            for (int i = 1; i <= Math.abs(difference); ++i) {
+                if (difference < 0) {
+                    i = -i;
+                }
+                if (gameBoard.isPositionOccupied(rank, File.valueOf(file.getValue() + i))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        // origin == destination
+        else {
+            return false;
+        }
     } 
 }

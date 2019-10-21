@@ -16,7 +16,7 @@ public abstract class Piece {
 
 	public abstract Piece makeCopy();
 
-	public abstract boolean isMoveisMoveAllowed(GameBoard gameBoard, Rank rank, File file); // rank, file encode destination
+	public abstract boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file); // rank, file encode destination
 
 	public abstract String toString();
 }

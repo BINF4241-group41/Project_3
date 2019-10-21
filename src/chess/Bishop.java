@@ -18,7 +18,7 @@ public class Bishop extends Piece {
         return "[" + color.getColorDescription() + name + "]";
     }
 
-    public boolean isMoveisMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
+    public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
         int y = position.getRank().getValue() - rank.getValue(); // |x-x1|=|y-y1|
         int x = position.getFile().getValue() - file.getValue();
         if (Math.abs(x) == Math.abs(y)) return true; //check the peices between

@@ -7,9 +7,10 @@ Implement special moves (Promotion, Castle, ...):
 
 Implement checking for check/checkmate.
 
-Pieces should check for obstacles themselves:
-    - give them copy of gameBoard
+Pieces should check for obstacles themselves.
 
 Eating of pieces.
 
 Use File and Rank instead of Square to remember position (multiple places)?
+
+Make moving the piece to current position illegal.
