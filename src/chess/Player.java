@@ -12,8 +12,12 @@ public class Player {
 	private ArrayList<Piece> activePieces = new ArrayList<Piece>(); // active pieces
 
 	private ArrayList<Piece> eatenPieces = new ArrayList<Piece>(); // eaten pieces
-	
-	
+
+
+	public String getName() {
+		return name;
+	}
+
 	public Player(Color c, String playerName) {
 		color = c;
 		name = playerName;

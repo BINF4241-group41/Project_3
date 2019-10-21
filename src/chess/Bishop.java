@@ -1,7 +1,7 @@
 package chess;
 
 
-public class Bishop extends Piece implements ActPiece{
+public class Bishop extends Piece {
 
     private final String name;
 

@@ -11,22 +11,23 @@ public class Game {
 	private Player whitePlayer;
 	private Player blackPlayer;
 
-	private Player nextPlayer; // can play next move
-	
-	
-	public Game(String[] playerNames) {
+	private String winnerName = null;
 
-		/*
-		if (playerNames.length < 2) {
-			if (playerNames.length < 1) {
-				playerNames = {"Default1"};
-			}
-			playerNames = {playerNames[0], "Default2"}
-		}
-		 */
+	private Player nextPlayer; // can play next move
+
+
+	public Player getNextPlayerName() {
+		return nextPlayer.getName();
+	}
+
+	public String getWinnerName() {
+		return winnerName;
+	}
+
+	public Game(String[] playerNames) {
 		
-		whitePlayer = new Player(Color.WHITE, playerNames[0]);
-		blackPlayer = new Player(Color.BLACK, playerNames[1]);
+		whitePlayer = new Player(Color.WHITE, (playerNames.length() > 0 ? playerNames[0] : "white"));
+		blackPlayer = new Player(Color.BLACK, (playerNames.length() > 1 ? playerNames[1] : "black"));
 
 		for (int rankCount = 1; rankCount <= 8; ++rankCount) { // horizontal (1-8)
 			for (int fileCount = 1; fileCount <= 8; ++fileCount) { // vertical (a-h)

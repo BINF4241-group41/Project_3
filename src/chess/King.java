@@ -1,7 +1,7 @@
 package chess;
 
 
-public class King extends Piece implements ActPiece{
+public class King extends Piece {
 
     private final String name;
     private static final int MAX_MOV=1;
@@ -24,9 +24,6 @@ public class King extends Piece implements ActPiece{
 
         if (Math.abs(mov.getRank().getValue() - position.getRank().getValue()) > MAX_MOV) return false;
         if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) > MAX_MOV) return false;
-
-        // TODO: Check boundaries.
-        //reply TODO: you don't need to check the boundaries cause the input is limited
 
         return true;
     }

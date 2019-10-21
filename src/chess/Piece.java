@@ -17,4 +17,6 @@ public abstract class Piece {
 	public abstract Piece makeCopy();
 
 	public abstract boolean isMovePossible(Square s);
+
+	public abstract String toString();
 }

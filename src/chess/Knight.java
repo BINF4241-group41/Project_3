@@ -1,7 +1,7 @@
 package chess;
 
 
-public class Knight extends Piece implements ActPiece{
+public class Knight extends Piece {
 
     private final String name;
 
