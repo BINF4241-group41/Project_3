@@ -120,62 +120,12 @@ public class Game {
 	// check if the input string could describe a valid move (excluding special cases)
 	public boolean isWellformedMoveDescription(String moveDescription) {
 
-		// TODO: Maybe use regex?
+		// first match all normal descriptions, then check if it contains origin rank but not file
+		boolean isValidNormal = moveDescription.matches("[TNBQK]?[a-h]?[1-8]?x?[a-h][1-8]") && !moveDescription.matches("[TNBQK]?[1-8]x?[a-h][1-8]");
 
-		// check length
-		if (Character.isUpperCase(moveDescription.charAt(0))) {
-			if (moveDescription.contains("x")) {
-				if (moveDescription.length() < 4 || 6 < moveDescription.length()) {
-					return false;
-				}
-			}
-			else {
-				if (moveDescription.length() < 3 || 5 < moveDescription.length()) {
-					return false;
-				}
-			}
-		}
-		// Pawn
-		else {
-			if (moveDescription.contains("x")) {
-				return (3 <= moveDescription.length() && moveDescription.length() <= 5);
-			}
-			else {
-				return (2 <= moveDescription.length() && moveDescription.length() <= 4);
-			}
-		}
-
-		if (Character.isUpperCase(moveDescription.charAt(0))) {
-			String pieceString = moveDescription.substring(0, 1);
-			if (!pieceString.contains("T") && !pieceString.contains("N") && !pieceString.contains("B") && !pieceString.contains("Q") && !pieceString.contains("K")) {
-				return false;
-			}
-		}
-
-		// check for valid destination
-		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last char -> String
-		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last char -> String
-
-		if (File.valueOf(Integer.valueOf(inputFile)) == null || Rank.valueOf(Integer.valueOf(inputRank)) == null) {
-			return false;
-		}
-
-		int startIndex = (Character.isUpperCase(moveDescription.charAt(0)) ? 1 : 0); // if first char is piecetype, ignore
-		int endIndex = (moveDescription.contains("x") ? moveDescription.length() - 3 : moveDescription.length() - 2); // ignore destination and x if set
-		String originString = moveDescription.substring(startIndex, endIndex);
-
-		if (originString.length() == 1) {
-			if (File.valueOf(Integer.valueOf(originString)) == null) {
-				return false;
-			}
-		}
-		else if (originString.length() == 2) {
-			if (File.valueOf(Integer.valueOf(originString.substring(0, originString.length() - 1))) == null) {
-				return false;
-			}
-			if (Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1))) == null) {
-				return false;
-			}
+		if (!isValidNormal) {
+			// check special cases
+			return false; // also no special case
 		}
 
 		return true;
@@ -191,8 +141,8 @@ public class Game {
 
 		String pieceString = "P";
 
-		if (Character.isUpperCase(moveDescription.charAt(0))) {
-			pieceString = String.valueOf(moveDescription.charAt(0));
+		if (moveDescription.matches("[TNBQK].*")) {
+			pieceString = moveDescription.substring(0, 1);
 		}
 
 		ArrayList<Piece> pieces = nextPlayer.getActivePieces();
@@ -206,8 +156,8 @@ public class Game {
 		}
 
 		// destination
-		String inputRank = moveDescription.substring(moveDescription.length() - 1, moveDescription.length()); // last char -> String
-		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last char -> String
+		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
+		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 
 		Square destinationSquare = gameBoard[Rank.valueOf(Integer.valueOf(inputRank)).getValue()][File.valueOf(Integer.valueOf(inputFile).getValue()];
 
@@ -230,7 +180,7 @@ public class Game {
 			File originFile = null;
 			Rank originRank = null;
 
-			int startIndex = (Character.isUpperCase(moveDescription.charAt(0)) ? 1 : 0); // if first char is piecetype, ignore
+			int startIndex = (moveDescription.matches("[TNBQK].*") ? 1 : 0); // if first char is piecetype, ignore
 			int endIndex = (moveDescription.contains("x") ? moveDescription.length() - 3 : moveDescription.length() - 2); // ignore destination and x if set
 
 			String originString = moveDescription.substring(startIndex, endIndex);
@@ -286,8 +236,8 @@ public class Game {
 			return false;
 		}
 
-		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last char -> String
-		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last char -> String
+		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
+		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 		Square destinationSquare = gameBoard[Rank.valueOf(inputRank).getValue()][File.valueOf(inputFile).getValue()];
 
 		destinationSquare.removePiece();
