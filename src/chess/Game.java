@@ -147,7 +147,7 @@ public class Game {
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 
-		Square destinationSquare = gameBoard[Rank.valueOf(Integer.valueOf(inputRank)).getValue()][File.valueOf(Integer.valueOf(inputFile).getValue()];
+		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)).getValue(), File.valueOf(inputFile).getValue());
 
 		// remove pieces which can't make this move
 		Iterator<Piece> iterator = matchedPieces.iterator();
@@ -181,10 +181,10 @@ public class Game {
 			// TODO: Implement special cases.
 
 			else if (originString.length() == 1) {
-				originFile = File.valueOf(Integer.valueOf(originString));
+				originFile = File.valueOf(originString);
 			}
 			else if (originString.length() == 2) {
-				originFile = File.valueOf(Integer.valueOf(originString.substring(0, originString.length() - 1)));
+				originFile = File.valueOf(originString.substring(0, originString.length() - 1));
 				originRank = Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1)));
 			}
 			else {
@@ -226,7 +226,7 @@ public class Game {
 
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
-		gameBoard.getSquareAtPosition(Rank.valueOf(inputRank).getValue(), File.valueOf(inputFile).getValue());
+		gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)).getValue(), File.valueOf(inputFile).getValue());
 
 		if (destinationSquare.getPiece() != null) {
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);

@@ -26,13 +26,22 @@ public enum File {
         }
     }
 
-    private File(int value) {
-        this.value = value;
+    // get File from int
+    public static File valueOf(int fileType) {
+        return (File) intMap.get(fileType);
     }
 
-    // get File from int
-    public static File valueOf (int fileType) {
-        return (File) intMap.get(fileType);
+    // get File from String
+    public static File valueOf(String name) {
+        for (File file : File.values()) {
+            if (file.toString() == "name") {
+                return file;
+            }
+        }
+    }
+
+    private File(int value) {
+        this.value = value;
     }
 
     public int getValue(){
