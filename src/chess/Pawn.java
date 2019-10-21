@@ -28,11 +28,6 @@ public class Pawn extends Piece {
 
         if (this.color == Color.WHITE) {
 
-            // reached border (should be promoted)
-            if (rank.getValue() == 8) {
-                return false;
-            }
-
             // diagonal moves
             if (position.getFile() != file) {
                 if (Math.abs(file - position.getFile()) != 1 || rank.getValue() - position.getRank().getValue() != 1) {
@@ -62,11 +57,6 @@ public class Pawn extends Piece {
 
         else if (this.color == COLOR.BLACK) {
 
-            // reached border (should be promoted)
-            if (rank.getValue() == 1) {
-                return false;
-            }
-
             // diagonal moves
             if (position.getFile() != file) {
                 if (Math.abs(file - position.getFile()) != 1 || position.getRank().getValue() - rank.getValue() != 1) {
@@ -94,6 +84,6 @@ public class Pawn extends Piece {
             }
         }
 
-        return false;
+        return false; // origin == destination
     }
 }

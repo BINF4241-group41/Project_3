@@ -25,6 +25,10 @@ public class King extends Piece {
         if (Math.abs(rank.getValue() - position.getRank().getValue()) > MAX_MOV) return false;
         if (Math.abs(file.getValue() - position.getFile().getValue()) > MAX_MOV) return false;
 
+        if (this.position.getRank() == rank && this.position.getFile() == file) {
+            return false; // origin == destination
+        }
+
         return true;
     }
 }

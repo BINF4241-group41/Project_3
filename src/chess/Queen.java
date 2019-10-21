@@ -23,7 +23,7 @@ public class Queen extends Piece {
         int fileDiff = position.getFile().getValue() - file.getValue();
 
         if (rankDiff == 0 && fileDiff == 0) {
-            return false;
+            return false; // origin == destination
         }
 
         if (Math.abs(rankDiff) != Math.abs(fileDiff) && rankDiff != 0 && fileDiff != 0) {
