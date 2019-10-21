@@ -3,15 +3,15 @@ package chess;
 
 public class Bishop extends Piece {
 
-    private final String name;
+    private final String name = "B";
 
-    public Bishop(Color color, Square position){
+    public Bishop(Color color, Rank rank, File file){
         this.color = color;
-        this.position = (position != null ? position.makeCopy() : null);
-        this.name = "B";
+        this.rank = rank;
+        this.file = file;
     }
     public Bishop makeCopy() {
-        return new Bishop(this.color, this.position);
+        return new Bishop(this.color, this.rank, this.position);
     }
 
     public String toString(){
@@ -20,8 +20,8 @@ public class Bishop extends Piece {
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
 
-        int rankDiff = position.getRank().getValue() - rank.getValue();
-        int fileDiff = position.getFile().getValue() - file.getValue();
+        int rankDiff = this.rank.getValue() - rank.getValue();
+        int fileDiff = this.file.getValue() - file.getValue();
 
         if (Math.abs(x) != Math.abs(y)) {
             return false;

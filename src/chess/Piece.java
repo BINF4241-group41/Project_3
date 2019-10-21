@@ -4,15 +4,21 @@ package chess;
 public abstract class Piece {
 	
 	protected Color color;
-	protected Square position;
+	protected Rank rank;
+	protected File file;
 
-	public void movePiece(Square position) {
-		this.position = (position != null ? position.makeCopy() : null);
+	public void movePiece(Rank rank, File file) {
+		if (rank != null && file != null) {
+			this.rank = rank;
+			this.file = file;
+		}
     }
 
-    public File getFile() { return (position != null ? position.getFile() : null); }
+	public Rank getRank() { return rank; }
 
-	public Rank getRank() { return (position != null ? position.getRank() : null); }
+    public File getFile() { return file; }
+
+	public Color getColor() { return this.color; }
 
 	public abstract Piece makeCopy();
 

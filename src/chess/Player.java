@@ -29,7 +29,7 @@ public class Player {
 		}
 	}
 
-	public boolean eatePiece(File file, Rank rank) {
+	public boolean eatePiece(Rank rank, File file) {
 
 		Piece matchedPiece = null;
 
@@ -60,7 +60,25 @@ public class Player {
 		return piecesCopies;
 	}
 
-	public void movePiece(Piece p, Rank r, File f) {
-		
+	public boolean movePiece(Piece p, Rank rank, File file) {
+
+		if (p == null || p.getColor != this.color || rank == null || file == null) {
+			return false;
+		}
+
+		Piece matchedPiece = null;
+
+		for (Piece activePiece : activePieces) {
+			if (p.getFile() == activePiece.getFile() && p.getRank() == activePiece.getRank()) {
+				matchedPiece = p;
+				break;
+			}
+		}
+
+		if (matchedPiece != null) {
+			matchedPiece.movePiece(rank, file);
+		}
+
+		return (matchedPiece != null);
 	}
 }

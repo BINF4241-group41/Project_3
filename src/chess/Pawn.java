@@ -3,12 +3,12 @@ package chess;
 
 public class Pawn extends Piece {
 
-    private final String name;
+    private final String name = "P";
 
-    public Pawn(Color color, Square position) {
+    public Pawn(Color color, Rank rank, File file) {
         this.color = color;
-        this.position = (position != null ? position.makeCopy() : null);
-        this.name = "P";
+        this.rank = rank;
+        this.file = file;
     }
 
     public String toString(){
@@ -16,7 +16,7 @@ public class Pawn extends Piece {
     }
 
     public Pawn makeCopy(){
-        return new Pawn(this.color, this.position);
+        return new Pawn(this.color, this.rank, this.file);
     }
 
 
@@ -29,8 +29,8 @@ public class Pawn extends Piece {
         if (this.color == Color.WHITE) {
 
             // diagonal moves
-            if (position.getFile() != file) {
-                if (Math.abs(file - position.getFile()) != 1 || rank.getValue() - position.getRank().getValue() != 1) {
+            if (this.file != file) {
+                if (Math.abs(file - this.file) != 1 || rank.getValue() - this.rank.getValue() != 1) {
                     return false;
                 } else if (gameBoard.isPositionOccupied(rank, file)) {
                     return true; // eat piece
@@ -38,8 +38,8 @@ public class Pawn extends Piece {
             }
 
             // two forward steps (allowed as first move)
-            else if (rank.getValue() - position.getRank().getValue() == 2) {
-                if (position.getRank.getValue() != 2) {
+            else if (rank.getValue() - this.rank.getValue() == 2) {
+                if (this.rank.getValue() != 2) {
                     return false;
                 }
                 else if (!gameBoard.isPositionOccupied(rank, file) && !gameBoard.isPositionOccupied(rank, File.valueOf(file.getValue() - 1))) {
@@ -48,7 +48,7 @@ public class Pawn extends Piece {
             }
 
             // one step forward
-            else if (rank.getValue() - position.getRank().getValue() == 1) {
+            else if (rank.getValue() - this.rank.getValue() == 1) {
                 if (!gameBoard.isPositionOccupied(rank, file)) {
                     return true;
                 }
@@ -59,7 +59,7 @@ public class Pawn extends Piece {
 
             // diagonal moves
             if (position.getFile() != file) {
-                if (Math.abs(file - position.getFile()) != 1 || position.getRank().getValue() - rank.getValue() != 1) {
+                if (Math.abs(file - this.file) != 1 || this.rank.getValue() - rank.getValue() != 1) {
                     return false;
                 } else if (gameBoard.isPositionOccupied(rank, file)) {
                     return true; // eat piece
@@ -67,8 +67,8 @@ public class Pawn extends Piece {
             }
 
             // two forward steps (allowed as first move)
-            else if (position.getRank().getValue() - rank.getValue() == 2) {
-                if (position.getRank.getValue() != 7) {
+            else if (this.rank.getValue() - rank.getValue() == 2) {
+                if (this.rank.getValue() != 7) {
                     return false;
                 }
                 else if (!gameBoard.isPositionOccupied(rank, file)) {
@@ -77,7 +77,7 @@ public class Pawn extends Piece {
             }
 
             // one step forward
-            else if (position.getRank().getValue() - rank.getValue() == 1) {
+            else if (this.rank.getValue() - rank.getValue() == 1) {
                 if (!gameBoard.isPositionOccupied(rank, file)) {
                     return true;
                 }

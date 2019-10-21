@@ -2,25 +2,26 @@ package chess;
 
 public class Queen extends Piece {
 
-    private final String name;
+    private final String name = "Q";
 
-    public Queen(Color color, Square position){
+    public Queen(Color color, Rank rank, File file) {
         this.color = color;
-        this.position = (position != null ? position.makeCopy() : null);
-        this.name = "Q";
-    }
-    public Queen makeCopy(){
-        return new Queen(this.color, this.position);
+        this.rank = rank;
+        this.file = file;
     }
 
-    public String toString(){
+    public Queen makeCopy() {
+        return new Queen(this.color, this.rank, this.file);
+    }
+
+    public String toString() {
         return "[" + color.getColorDescription() + name + "]";
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) { //bishop+tower
 
-        int rankDiff = position.getRank().getValue() - rank.getValue();
-        int fileDiff = position.getFile().getValue() - file.getValue();
+        int rankDiff = this.rank.getValue() - rank.getValue();
+        int fileDiff = this.file.getValue() - file.getValue();
 
         if (rankDiff == 0 && fileDiff == 0) {
             return false; // origin == destination

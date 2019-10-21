@@ -3,16 +3,16 @@ package chess;
 
 public class Knight extends Piece {
 
-    private final String name;
+    private final String name = "N";
 
-    public Knight(Color color, Square position) {
+    public Knight(Color color, Rank rank, File file) {
         this.color = color;
-        this.position = (position != null ? position.makeCopy() : null);
-        this.name = "N";
+        this.rank = rank;
+        this.file = file;
     }
 
     public Knight makeCopy(){
-        return new Knight(this.color, this.position);
+        return new Knight(this.color, this.rank, this.file);
     }
 
     public String toString() {
@@ -20,17 +20,17 @@ public class Knight extends Piece {
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
-        if (position.getFile().getValue() + 2 == file.getValue()){
-            if (Math.abs(position.getRank().getValue() - rank.getValue()) == 1) return true;
+        if (this.file.getValue() + 2 == file.getValue()){
+            if (Math.abs(this.rank.getValue() - rank.getValue()) == 1) return true;
         }
-        if (position.getFile().getValue() + 1 == file.getValue()) {
-            if (Math.abs(position.getRank().getValue() - rank.getValue()) == 2) return true;
+        if (this.file.getValue() + 1 == file.getValue()) {
+            if (Math.abs(this.rank.getValue() - rank.getValue()) == 2) return true;
         }
-        if (position.getFile().getValue() - 1 == file.getValue()) {
-            if (Math.abs(position.getRank().getValue() - rank.getValue()) == 2) return true;
+        if (this.file.getValue() - 1 == file.getValue()) {
+            if (Math.abs(this.rank.getValue() - rank.getValue()) == 2) return true;
         }
-        if (position.getFile().getValue() - 2 == file.getValue()) {
-            if (Math.abs(position.getRank().getValue() - rank.getValue()) == 1)return true;
+        if (this.file.getValue() - 2 == file.getValue()) {
+            if (Math.abs(this.rank.getValue() - rank.getValue()) == 1)return true;
         }
         return false;
     }

@@ -7,6 +7,6 @@ Implement special moves (Promotion, Castle, ...):
 
 Implement checking for check/checkmate.
 
-Eating of pieces.
+Pawn eating piece when jumping over other piece (only possible when first move -> can move 2 ahead).
 
-Use File and Rank instead of Square to remember position (multiple places)?
+Check if rank, file aren't null in Pieces constructors.

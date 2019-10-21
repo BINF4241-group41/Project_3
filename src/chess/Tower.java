@@ -3,11 +3,12 @@ package chess;
 
 public class Tower extends Piece {
    
-    private final String name;
+    private final String name = "T";
     
-    public Tower(Color color, Square position){
+    public Tower(Color color, Rank rank, File file){
         this.color = color;
-        this.position = (position != null ? position.makeCopy() : null);
+        this.rank = rank;
+        this.file = file;
         this.name = "T";
     }
 
@@ -16,17 +17,17 @@ public class Tower extends Piece {
     }
 
     public Tower makeCopy() {
-        return new Tower (this.color, this.position);
+        return new Tower (this.color, this.rank, this.file);
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
-        if (rank != position.getRank() && file != position.getFile()) {
+        if (rank != this.rank && file != this.file) {
             return false;
         }
 
         // vertical movement
-        if (rank != position.getRank()) {
-            int difference = position.getRank().getValue() - rank.getValue();
+        if (rank != this.rank) {
+            int difference = this.rank.getValue() - rank.getValue();
 
             for (int i = 1; i < Math.abs(difference); ++i) {
                 if (difference < 0) {
@@ -40,7 +41,7 @@ public class Tower extends Piece {
         }
         // horizontal movement
         else if (file != position.getFile()) {
-            int difference = position.getFile().getValue() - file.getValue();
+            int difference = this.file.getValue() - file.getValue();
 
             for (int i = 1; i < Math.abs(difference); ++i) {
                 if (difference < 0) {

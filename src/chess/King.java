@@ -3,17 +3,17 @@ package chess;
 
 public class King extends Piece {
 
-    private final String name;
+    private final String name = "K";
     private static final int MAX_MOV = 1;
 
-    public King(Color color, Square position) {
+    public King(Color color, Rank rank, File file) {
         this.color = color;
-        this.position = (position != null ? position.makeCopy() : null);
-        this.name = "K";
+        this.rank = rank;
+        this.file = file;
     }
 
     public King makeCopy() {
-        return new King(this.color, this.position);
+        return new King(this.color, this.rank, this.file);
     }
 
     public String toString() {
@@ -22,10 +22,10 @@ public class King extends Piece {
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
 
-        if (Math.abs(rank.getValue() - position.getRank().getValue()) > MAX_MOV) return false;
-        if (Math.abs(file.getValue() - position.getFile().getValue()) > MAX_MOV) return false;
+        if (Math.abs(rank.getValue() - this.rank.getValue()) > MAX_MOV) return false;
+        if (Math.abs(file.getValue() - this.file.getValue()) > MAX_MOV) return false;
 
-        if (this.position.getRank() == rank && this.position.getFile() == file) {
+        if (this.rank == rank && this.file == file) {
             return false; // origin == destination
         }
 
