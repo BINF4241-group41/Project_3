@@ -16,7 +16,7 @@ public class Game {
 	private Player nextPlayer; // can play next move
 
 
-	public Player getNextPlayerName() {
+	public String getNextPlayerName() {
 		return nextPlayer.getName();
 	}
 
@@ -26,8 +26,8 @@ public class Game {
 
 	public Game(String[] playerNames) {
 		
-		whitePlayer = new Player(Color.WHITE, (playerNames.length() > 0 ? playerNames[0] : "white"));
-		blackPlayer = new Player(Color.BLACK, (playerNames.length() > 1 ? playerNames[1] : "black"));
+		whitePlayer = new Player(Color.WHITE, (playerNames.length > 0 ? playerNames[0] : "white"));
+		blackPlayer = new Player(Color.BLACK, (playerNames.length > 1 ? playerNames[1] : "black"));
 
 		gameBoard = new GameBoard();
 
@@ -40,9 +40,9 @@ public class Game {
 	private void piecesSetup() {
 
 		// set up Pawns
-		for (int i = 0; i < 7; ++i) {
+		for (int i = 1; i <= 8; ++i) {
 			Pawn whitePawn = new Pawn(Color.WHITE, Rank.valueOf(2), File.valueOf(i));
-			gameBoard.setPieceAtPosition(whitePawn.makeCopy(), Rank.valueOf(2),File.valueOf(i));
+			gameBoard.setPieceAtPosition(whitePawn.makeCopy(), Rank.valueOf(2), File.valueOf(i));
 			whitePlayer.addPiece(whitePawn);
 			Pawn blackPawn = new Pawn(Color.BLACK, Rank.valueOf(7), File.valueOf(i));
 			gameBoard.setPieceAtPosition(blackPawn.makeCopy(), Rank.valueOf(7), File.valueOf(i));
@@ -147,13 +147,13 @@ public class Game {
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 
-		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)).getValue(), File.valueOf(inputFile).getValue());
+		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)), File.fromString(inputFile));
 
 		// remove pieces which can't make this move
 		Iterator<Piece> iterator = matchedPieces.iterator();
 
 		while (iterator.hasNext()) {
-			if (!iterator.next().isMovePossible(destinationSquare)) {
+			if (!iterator.next().isMoveAllowed(this.gameBoard, destinationSquare.getRank(), destinationSquare.getFile())) {
 				iterator.remove();
 			}
 		}
@@ -181,10 +181,10 @@ public class Game {
 			// TODO: Implement special cases.
 
 			else if (originString.length() == 1) {
-				originFile = File.valueOf(originString);
+				originFile = File.fromString(originString);
 			}
 			else if (originString.length() == 2) {
-				originFile = File.valueOf(originString.substring(0, originString.length() - 1));
+				originFile = File.fromString(originString.substring(0, originString.length() - 1));
 				originRank = Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1)));
 			}
 			else {
@@ -226,7 +226,7 @@ public class Game {
 
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
-		destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)).getValue(), File.valueOf(inputFile).getValue());
+		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)), File.fromString(inputFile));
 
 		// Piece gets eaten by piece who lands there
 		if (destinationSquare.getPiece() != null) {
@@ -236,13 +236,14 @@ public class Game {
 
 		// Piece gets eaten py Pawn by getting jumped over (only possible if Pawn hasn't moved yet)
 		if (piece instanceof Pawn) {
-			if (destinationSquare.getRank() - piece.getRank() == 2) {
+			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+			if (destinationSquare.getRank().getValue() - piece.getRank().getValue() == 2) {
 				if (gameBoard.getPieceAtPosition(Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile()) != null) {
 					gameBoard.setPieceAtPosition(null, Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile());
 					otherPlayer.eatPiece(Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile());
 				}
 			}
-			if (piece.getRank() - destinationSquare.getRank() == 2) {
+			if (piece.getRank().getValue() - destinationSquare.getRank().getValue() == 2) {
 				if (gameBoard.getPieceAtPosition(Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile()) != null) {
 					gameBoard.setPieceAtPosition(null, Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile());
 					otherPlayer.eatPiece(Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile());
@@ -250,7 +251,7 @@ public class Game {
 			}
 		}
 
-		piece.movePiece(destinationSquare);
+		piece.movePiece(destinationSquare.getRank(), destinationSquare.getFile());
 		gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);

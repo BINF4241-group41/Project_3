@@ -3,12 +3,13 @@ package chess;
 
 public class Knight extends Piece {
 
-    private final String name = "N";
+    private final String name;
 
     public Knight(Color color, Rank rank, File file) {
         this.color = color;
         this.rank = rank;
         this.file = file;
+        this.name = "N";
     }
 
     public Knight makeCopy(){

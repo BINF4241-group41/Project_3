@@ -29,7 +29,7 @@ public class Player {
 		}
 	}
 
-	public boolean eatePiece(Rank rank, File file) {
+	public boolean eatPiece(Rank rank, File file) {
 
 		Piece matchedPiece = null;
 
@@ -46,7 +46,7 @@ public class Player {
 		// successfully removed
 		if (wasRemoved) {
 			eatenPieces.add(matchedPiece);
-			matchedPiece.position(null);
+			matchedPiece.removePiece();
 		}
 		return wasRemoved;
 	}
@@ -62,7 +62,7 @@ public class Player {
 
 	public boolean movePiece(Piece p, Rank rank, File file) {
 
-		if (p == null || p.getColor != this.color || rank == null || file == null) {
+		if (p == null || p.getColor() != this.color || rank == null || file == null) {
 			return false;
 		}
 

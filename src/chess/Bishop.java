@@ -3,15 +3,16 @@ package chess;
 
 public class Bishop extends Piece {
 
-    private final String name = "B";
+    private final String name;
 
     public Bishop(Color color, Rank rank, File file){
         this.color = color;
         this.rank = rank;
         this.file = file;
+        this.name = "B";
     }
     public Bishop makeCopy() {
-        return new Bishop(this.color, this.rank, this.position);
+        return new Bishop(this.color, this.rank, this.file);
     }
 
     public String toString(){
@@ -23,7 +24,7 @@ public class Bishop extends Piece {
         int rankDiff = this.rank.getValue() - rank.getValue();
         int fileDiff = this.file.getValue() - file.getValue();
 
-        if (Math.abs(x) != Math.abs(y)) {
+        if (Math.abs(rankDiff) != Math.abs(fileDiff)) {
             return false;
         }
 
@@ -38,26 +39,23 @@ public class Bishop extends Piece {
                     if (gameBoard.isPositionOccupied(Rank.valueOf(rank.getValue() + i), File.valueOf(file.getValue() + i))) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     if (gameBoard.isPositionOccupied(Rank.valueOf(rank.getValue() + i), File.valueOf(file.getValue() - i))) {
                         return false;
                     }
                 }
-            }
-
-            else {
+            } else {
                 if (fileDiff > 0) {
                     if (gameBoard.isPositionOccupied(Rank.valueOf(rank.getValue() - i), File.valueOf(file.getValue() + i))) {
                         return false;
                     }
-                }
-                else {
+                } else {
                     if (gameBoard.isPositionOccupied(Rank.valueOf(rank.getValue() - i), File.valueOf(file.getValue() - i))) {
                         return false;
                     }
                 }
             }
+        }
 
         return false;
     }

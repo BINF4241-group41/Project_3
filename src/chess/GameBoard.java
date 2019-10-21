@@ -24,7 +24,7 @@ public class GameBoard {
 
     public Square getSquareAtPosition(Rank rank, File file) {
         if (rank == null || file == null) {
-            return false;
+            return null;
         }
         return gameBoard[rank.getValue()][file.getValue()].makeCopy();
     }
@@ -38,17 +38,14 @@ public class GameBoard {
 
     public Piece getPieceAtPosition(Rank rank, File file) {
         if (rank == null || file == null) {
-            return false;
+            return null;
         }
-        gameBoard[rank.getValue()][file.getValue()].getPiece();
+        return gameBoard[rank.getValue()][file.getValue()].getPiece();
     }
 
     // p == null -> piece gets removed
-    public boolean setPieceAtPosition(Piece p, Rank rank, File file) {
-        if (rank == null || file == null) {
-            return false;
-        }
-        gameBoard[rank.getValue()][file.getValue()].setPiece(p);
+    public void setPieceAtPosition(Piece p, Rank rank, File file) {
+        gameBoard[rank.getValue() - 1][file.getValue() - 1].setPiece(p);
     }
 
     public String toString() {

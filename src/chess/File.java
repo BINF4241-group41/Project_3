@@ -32,12 +32,13 @@ public enum File {
     }
 
     // get File from String
-    public static File valueOf(String name) {
+    public static File fromString(String name) {
         for (File file : File.values()) {
             if (file.toString() == "name") {
                 return file;
             }
         }
+        return null;
     }
 
     private File(int value) {

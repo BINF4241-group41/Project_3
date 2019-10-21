@@ -3,7 +3,7 @@ package chess;
 
 public class Tower extends Piece {
    
-    private final String name = "T";
+    private final String name;
     
     public Tower(Color color, Rank rank, File file){
         this.color = color;
@@ -40,7 +40,7 @@ public class Tower extends Piece {
             return true;
         }
         // horizontal movement
-        else if (file != position.getFile()) {
+        else if (file != this.file) {
             int difference = this.file.getValue() - file.getValue();
 
             for (int i = 1; i < Math.abs(difference); ++i) {

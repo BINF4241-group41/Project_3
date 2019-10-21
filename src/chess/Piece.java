@@ -14,6 +14,11 @@ public abstract class Piece {
 		}
     }
 
+    public void removePiece() {
+		this.rank = null;
+		this.file = null;
+	}
+
 	public Rank getRank() { return rank; }
 
     public File getFile() { return file; }

@@ -3,12 +3,13 @@ package chess;
 
 public class Pawn extends Piece {
 
-    private final String name = "P";
+    private final String name;
 
     public Pawn(Color color, Rank rank, File file) {
         this.color = color;
         this.rank = rank;
         this.file = file;
+        this.name = "P";
     }
 
     public String toString(){
@@ -30,7 +31,7 @@ public class Pawn extends Piece {
 
             // diagonal moves
             if (this.file != file) {
-                if (Math.abs(file - this.file) != 1 || rank.getValue() - this.rank.getValue() != 1) {
+                if (Math.abs(file.getValue() - this.file.getValue()) != 1 || rank.getValue() - this.rank.getValue() != 1) {
                     return false;
                 } else if (gameBoard.isPositionOccupied(rank, file)) {
                     return true; // eat piece
@@ -55,11 +56,11 @@ public class Pawn extends Piece {
             }
         }
 
-        else if (this.color == COLOR.BLACK) {
+        else if (this.color == Color.BLACK) {
 
             // diagonal moves
-            if (position.getFile() != file) {
-                if (Math.abs(file - this.file) != 1 || this.rank.getValue() - rank.getValue() != 1) {
+            if (this.file != file) {
+                if (Math.abs(file.getValue() - this.file.getValue()) != 1 || this.rank.getValue() - rank.getValue() != 1) {
                     return false;
                 } else if (gameBoard.isPositionOccupied(rank, file)) {
                     return true; // eat piece

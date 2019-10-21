@@ -3,13 +3,14 @@ package chess;
 
 public class King extends Piece {
 
-    private final String name = "K";
+    private final String name;
     private static final int MAX_MOV = 1;
 
     public King(Color color, Rank rank, File file) {
         this.color = color;
         this.rank = rank;
         this.file = file;
+        this.name = "K";
     }
 
     public King makeCopy() {
