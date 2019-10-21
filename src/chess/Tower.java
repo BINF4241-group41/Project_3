@@ -12,16 +12,16 @@ public class Tower extends Piece {
     }
 
     public String toString(){
-		return "[" + color.getColorDescription() + name + "]";
+        return "[" + color.getColorDescription() + name + "]";
     }
 
     public Tower makeCopy() {
-        return new Tower(this.color, this.position);
+        return new Tower (this.color, this.position);
     }
 
-    public boolean isMovePossible(Square mov){
-        if (mov.getRank() != position.getRank()) return false;
-        if (mov.getFile() != position.getFile()) return false;
+    public boolean isMoveisMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
+        if (rank != position.getRank()) return false;
+        if (file != position.getFile()) return false;
         return true;
     } 
 }

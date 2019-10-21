@@ -14,15 +14,15 @@ public class Queen extends Piece {
     }
 
     public String toString(){
-		return "[" + color.getColorDescription() + name + "]";
+        return "[" + color.getColorDescription() + name + "]";
     }
 
-    public boolean isMovePossible(Square mov){ //bishop+tower
-        int y = position.getRank().getValue() - mov.getRank().getValue(); // |x-x1|=|y-y1|
-        int x = position.getFile().getValue() - mov.getFile().getValue();
-        if (Math.abs(x)==Math.abs(y))return true; //check the peices between
-        if(mov.getRank() != position.getRank())return false;
-        if(mov.getFile() != position.getFile())return false;
+    public boolean isMoveisMoveAllowed(GameBoard gameBoard, Rank rank, File file) { //bishop+tower
+        int y = position.getRank().getValue() - rank.getValue(); // |x-x1|=|y-y1|
+        int x = position.getFile().getValue() - file.getValue();
+        if (Math.abs(x) == Math.abs(y)) return true; //check the peices between
+        if (rank != position.getRank()) return false;
+        if (file != position.getFile()) return false;
         return true;
     }
 

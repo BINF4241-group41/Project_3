@@ -17,13 +17,13 @@ public class King extends Piece {
     }
 
     public String toString(){
-		return "[" + color.getColorDescription() + name + "]";
+        return "[" + color.getColorDescription() + name + "]";
     }
 
-    public boolean isMovePossible(Square mov) {
+    public boolean isMoveisMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
 
-        if (Math.abs(mov.getRank().getValue() - position.getRank().getValue()) > MAX_MOV) return false;
-        if (Math.abs(mov.getFile().getValue() - position.getFile().getValue()) > MAX_MOV) return false;
+        if (Math.abs(rank.getValue() - position.getRank().getValue()) > MAX_MOV) return false;
+        if (Math.abs(file.getValue() - position.getFile().getValue()) > MAX_MOV) return false;
 
         return true;
     }

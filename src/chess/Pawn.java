@@ -12,7 +12,7 @@ public class Pawn extends Piece {
     }
 
     public String toString(){
-		return "[" + color.getColorDescription() + name + "]";
+        return "[" + color.getColorDescription() + name + "]";
     }
 
     public Pawn makeCopy(){
@@ -20,7 +20,7 @@ public class Pawn extends Piece {
     }
 
 
-    public boolean isMovePossible(GameBoard gameBoard, Rank rank, File file) {
+    public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
 
         if (rank == null || file == null) {
             return false;
