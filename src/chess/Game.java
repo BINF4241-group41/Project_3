@@ -226,11 +226,28 @@ public class Game {
 
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
-		gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)).getValue(), File.valueOf(inputFile).getValue());
+		destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)).getValue(), File.valueOf(inputFile).getValue());
 
+		// Piece gets eaten by piece who lands there
 		if (destinationSquare.getPiece() != null) {
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 			otherPlayer.eatPiece(destinationSquare.getRank(), destinationSquare.getFile());
+		}
+
+		// Piece gets eaten py Pawn by getting jumped over (only possible if Pawn hasn't moved yet)
+		if (piece instanceof Pawn) {
+			if (destinationSquare.getRank() - piece.getRank() == 2) {
+				if (gameBoard.getPieceAtPosition(Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile()) != null) {
+					gameBoard.setPieceAtPosition(null, Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile());
+					otherPlayer.eatPiece(Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile());
+				}
+			}
+			if (piece.getRank() - destinationSquare.getRank() == 2) {
+				if (gameBoard.getPieceAtPosition(Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile()) != null) {
+					gameBoard.setPieceAtPosition(null, Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile());
+					otherPlayer.eatPiece(Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile());
+				}
+			}
 		}
 
 		piece.movePiece(destinationSquare);

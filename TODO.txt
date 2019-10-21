@@ -1,6 +1,4 @@
 
-Make it possible to convert char/String to File (a -> enum a). Change code in Game to reflect change (currently fails during runtime).
-
 Implement special moves (Promotion, Castle, ...):
     - Implement regex for them (in isWellformedMoveDescription()).
     - Implement actual move.
