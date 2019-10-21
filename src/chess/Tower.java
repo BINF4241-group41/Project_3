@@ -24,10 +24,11 @@ public class Tower extends Piece {
             return false;
         }
 
+        // vertical movement
         if (rank != position.getRank()) {
             int difference = position.getRank().getValue() - rank.getValue();
 
-            for (int i = 1; i <= Math.abs(difference); ++i) {
+            for (int i = 1; i < Math.abs(difference); ++i) {
                 if (difference < 0) {
                     i = -i;
                 }
@@ -37,10 +38,11 @@ public class Tower extends Piece {
             }
             return true;
         }
+        // horizontal movement
         else if (file != position.getFile()) {
             int difference = position.getFile().getValue() - file.getValue();
 
-            for (int i = 1; i <= Math.abs(difference); ++i) {
+            for (int i = 1; i < Math.abs(difference); ++i) {
                 if (difference < 0) {
                     i = -i;
                 }
