@@ -18,14 +18,20 @@ public class Square {
 		this.file = file;
 	}
 
+	public Square(Color color, Rank rank, File file, Piece p) {
+
+		this.color = color;
+		this.rank = rank;
+		this.file = file;
+		this.piece = (p != null ? p.makeCopy() : null);
+	}
+
 	public Piece getPiece() {
 		return (this.piece != null ? this.piece.makeCopy() : null);
 	}
 
 	public void setPiece(Piece piece) {
-		if (piece != null) {
-			this.piece = piece.makeCopy();
-		}
+		this.piece = piece;
 	}
 
 	public void removePiece() {
@@ -41,6 +47,10 @@ public class Square {
 	}
 
 	public Square makeCopy() {
-		return new Square(this.color, this.rank, this.file);
+		return new Square(this.color, this.rank, this.file, this.piece);
+	}
+
+	public boolean isOccupied() {
+		return (this.piece != null);
 	}
 }

@@ -7,7 +7,7 @@ public class MainClass {
 	
 	public static void main(String args[]) {
 
-		String[] playerNames = {"", ""};
+		String[] playerNames = new String[2];
 		Game myGame;
 
 		Scanner myScanner = new Scanner(System.in);

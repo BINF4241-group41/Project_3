@@ -10,7 +10,7 @@ public class Bishop extends Piece {
         this.position = (position != null ? position.makeCopy() : null);
         this.name = "B";
     }
-    public Bishop makeCopy(){
+    public Bishop makeCopy() {
         return new Bishop(this.color, this.position);
     }
 

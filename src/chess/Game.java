@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public class Game {
 	
-	private Square[][] gameBoard = new Square[8][8]; // rank x file (gameBoard[0][7] == 1h)
+	private GameBoard gameBoard;
 	
 	private Player whitePlayer;
 	private Player blackPlayer;
@@ -29,18 +29,7 @@ public class Game {
 		whitePlayer = new Player(Color.WHITE, (playerNames.length() > 0 ? playerNames[0] : "white"));
 		blackPlayer = new Player(Color.BLACK, (playerNames.length() > 1 ? playerNames[1] : "black"));
 
-		for (int rankCount = 1; rankCount <= 8; ++rankCount) { // horizontal (1-8)
-			for (int fileCount = 1; fileCount <= 8; ++fileCount) { // vertical (a-h)
-
-				Color color;
-				color = ((fileCount + rankCount) % 2 == 0) ? Color.BLACK : Color.WHITE;
-
-				Rank rank = Rank.valueOf(rankCount); // 1 -> (Rank) 1, ...
-				File file = File.valueOf(fileCount); // 1 -> a, 2 -> b, ...
-
-				gameBoard[rankCount - 1][fileCount - 1] = new Square(color, rank, file);
-			}
-		}
+		gameBoard = new GameBoard();
 
 		piecesSetup();
 		nextPlayer = whitePlayer;
@@ -52,68 +41,70 @@ public class Game {
 
 		// set up Pawns
 		for (int i = 0; i < 7; ++i) {
-			Pawn whitePawn = new Pawn(Color.WHITE, gameBoard[1][i].makeCopy());
-			gameBoard[1][i].setPiece(whitePawn);
+			Pawn whitePawn = new Pawn(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(2), File.valueOf(i)));
+			gameBoard.setPieceAtPosition(whitePawn.makeCopy(), Rank.valueOf(2),File.valueOf(i));
 			whitePlayer.addPiece(whitePawn);
-			Pawn blackPawn = new Pawn(Color.BLACK, gameBoard[6][i].makeCopy());
-			gameBoard[6][i].setPiece(blackPawn);
+			Pawn blackPawn = new Pawn(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(7), File.valueOf(i)));
+			gameBoard.setPieceAtPosition(blackPawn.makeCopy(), Rank.valueOf(7), File.valueOf(i));
 			blackPlayer.addPiece(blackPawn);
 		}
 
-		Tower whiteTower = new Tower(Color.WHITE, gameBoard[0][0].makeCopy());
-		gameBoard[0][0].setPiece(whiteTower);
+		Tower whiteTower = new Tower(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(1)));
+		gameBoard.setPieceAtPosition(whiteTower.makeCopy(), Rank.valueOf(1), File.valueOf(1));
 		whitePlayer.addPiece(whiteTower);
-		whiteTower = new Tower(Color.WHITE, gameBoard[0][7].makeCopy());
-		gameBoard[0][7].setPiece(whiteTower);
+		whiteTower = new Tower(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(8)));
+		gameBoard.setPieceAtPosition(whiteTower.makeCopy(), Rank.valueOf(1), File.valueOf(8));
+		whitePlayer.addPiece(whiteTower);
 
-		Tower blackTower = new Tower(Color.BLACK, gameBoard[7][0].makeCopy());
-		gameBoard[7][0].setPiece(blackTower);
+		Tower blackTower = new Tower(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(1)));
+		gameBoard.setPieceAtPosition(blackTower.makeCopy(), Rank.valueOf(8), File.valueOf(1));
 		blackPlayer.addPiece(blackTower);
-		blackTower = new Tower(Color.BLACK, gameBoard[7][7].makeCopy());
-		gameBoard[7][7].setPiece(blackTower);
+		blackTower = new Tower(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(8)));
+		gameBoard.setPieceAtPosition(blackTower.makeCopy(), Rank.valueOf(8), File.valueOf(8));
 		blackPlayer.addPiece(blackTower);
 
-		Knight whiteKnight = new Knight(Color.WHITE, gameBoard[0][1].makeCopy());
-		gameBoard[0][1].setPiece(whiteKnight);
+		Knight whiteKnight = new Knight(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(2)));
+		gameBoard.setPieceAtPosition(whiteKnight.makeCopy(), Rank.valueOf(1), File.valueOf(2));
 		whitePlayer.addPiece(whiteKnight);
-		whiteKnight = new Knight(Color.WHITE, gameBoard[0][6].makeCopy());
-		gameBoard[0][6].setPiece(whiteKnight);
+		whiteKnight = new Knight(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(7)));
+		gameBoard.setPieceAtPosition(whiteKnight.makeCopy(), Rank.valueOf(1), File.valueOf(7));
+		whitePlayer.addPiece(whiteKnight);
 
-		Knight blackKnight = new Knight(Color.BLACK, gameBoard[7][1].makeCopy());
-		gameBoard[7][1].setPiece(blackKnight);
+		Knight blackKnight = new Knight(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(2)));
+		gameBoard.setPieceAtPosition(blackKnight.makeCopy(), Rank.valueOf(8), File.valueOf(2));
 		blackPlayer.addPiece(blackKnight);
-		blackKnight = new Knight(Color.BLACK, gameBoard[7][6].makeCopy());
-		gameBoard[7][6].setPiece(blackKnight);
+		blackKnight = new Knight(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(7)));
+		gameBoard.setPieceAtPosition(blackKnight.makeCopy(), Rank.valueOf(8), File.valueOf(7));
 		blackPlayer.addPiece(blackKnight);
 
-		Bishop whiteBishop = new Bishop(Color.WHITE, gameBoard[0][2].makeCopy());
-		gameBoard[0][2].setPiece(whiteBishop);
+		Bishop whiteBishop = new Bishop(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(3)));
+		gameBoard.setPieceAtPosition(whiteBishop.makeCopy(), Rank.valueOf(1), File.valueOf(3));
 		whitePlayer.addPiece(whiteBishop);
-		whiteBishop = new Bishop(Color.WHITE, gameBoard[0][5].makeCopy());
-		gameBoard[0][5].setPiece(whiteBishop);
+		whiteBishop = new Bishop(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(6)));
+		gameBoard.setPieceAtPosition(whiteBishop.makeCopy(), Rank.valueOf(1), File.valueOf(6));
 		whitePlayer.addPiece(whiteBishop);
 
-		Bishop blackBishop = new Bishop(Color.BLACK, gameBoard[7][2].makeCopy());
-		gameBoard[7][2].setPiece(blackBishop);
+		Bishop blackBishop = new Bishop(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(3)));
+		gameBoard.setPieceAtPosition(blackBishop.makeCopy(), Rank.valueOf(8), File.valueOf(3));
 		blackPlayer.addPiece(blackBishop);
-		blackBishop = new Bishop(Color.BLACK, gameBoard[7][5].makeCopy());
-		gameBoard[7][5].setPiece(blackBishop);
+		blackBishop = new Bishop(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(6)));
+		gameBoard.setPieceAtPosition(blackBishop.makeCopy(), Rank.valueOf(8), File.valueOf(6));
 		blackPlayer.addPiece(blackBishop);
 
-		Queen whiteQueen = new Queen(Color.WHITE, gameBoard[0][3].makeCopy());
-		gameBoard[0][3].setPiece(whiteQueen);
+		Queen whiteQueen = new Queen(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(4)));
+		gameBoard.setPieceAtPosition(whiteQueen.makeCopy(), Rank.valueOf(1), File.valueOf(4));
 		whitePlayer.addPiece(whiteQueen);
 
-		Queen blackQueen = new Queen(Color.BLACK, gameBoard[7][3].makeCopy());
-		gameBoard[7][3].setPiece(blackQueen);
+		Queen blackQueen = new Queen(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(4)));
+		gameBoard.setPieceAtPosition(blackQueen.makeCopy(), Rank.valueOf(8), File.valueOf(4));
 		blackPlayer.addPiece(blackQueen);
 
-		King whiteKing = new King(Color.WHITE, gameBoard[0][4].makeCopy());
-		gameBoard[0][4].setPiece(whiteKing);
+		King whiteKing = new King(Color.WHITE, gameBoard.getSquareAtPosition(Rank.valueOf(1), File.valueOf(5)));
+		gameBoard.setPieceAtPosition(whiteKing.makeCopy(), Rank.valueOf(1), File.valueOf(5));
 		whitePlayer.addPiece(whiteKing);
 
-		King blackKing = new King(Color.BLACK, gameBoard[7][4].makeCopy());
-		gameBoard[7][4].setPiece(blackKing);
+		King blackKing = new King(Color.BLACK, gameBoard.getSquareAtPosition(Rank.valueOf(8), File.valueOf(5)));
+		gameBoard.setPieceAtPosition(blackKing.makeCopy(), Rank.valueOf(8), File.valueOf(5));
 		blackPlayer.addPiece(blackKing);
 	}
 
@@ -241,8 +232,13 @@ public class Game {
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 		Square destinationSquare = gameBoard[Rank.valueOf(inputRank).getValue()][File.valueOf(inputFile).getValue()];
 
-		destinationSquare.removePiece();
+		if (destinationSquare.getPiece() != null) {
+			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+			otherPlayer.eatPiece(destinationSquare.getFile(), destinationSquare.getRank());
+		}
+
 		piece.movePiece(destinationSquare);
+		gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 

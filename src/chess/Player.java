@@ -42,8 +42,11 @@ public class Player {
 		}
 
 		boolean wasRemoved = activePieces.remove(matchedPiece);
+
+		// successfully removed
 		if (wasRemoved) {
 			eatenPieces.add(matchedPiece);
+			matchedPiece.position(null);
 		}
 		return wasRemoved;
 	}

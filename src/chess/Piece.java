@@ -7,7 +7,7 @@ public abstract class Piece {
 	protected Square position;
 
 	public void movePiece(Square position) {
-		this.position = position.makeCopy();
+		this.position = (position != null ? position.makeCopy() : null);
     }
 
     public File getFile() { return (position != null ? position.getFile() : null); }
@@ -16,7 +16,7 @@ public abstract class Piece {
 
 	public abstract Piece makeCopy();
 
-	public abstract boolean isMovePossible(Square s);
+	public abstract boolean isMovePossible(GameBoard gameBoard, Rank rank, File file); // rank, file encode destination
 
 	public abstract String toString();
 }

@@ -10,8 +10,6 @@ Implement checking for check/checkmate.
 Pieces should check for obstacles themselves:
     - give them copy of gameBoard
 
-Pawn can move only in one direction, first move can be 1 or 2 fields.
-
 Eating of pieces.
 
-movePiece() in Player.
+Use File and Rank instead of Square to remember position (multiple places)?
