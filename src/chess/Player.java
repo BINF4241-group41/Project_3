@@ -57,6 +57,7 @@ public class Player {
 		for (Piece p : activePieces) {
 			piecesCopies.add(p.makeCopy());
 		}
+
 		return piecesCopies;
 	}
 
@@ -70,7 +71,7 @@ public class Player {
 
 		for (Piece activePiece : activePieces) {
 			if (p.getFile() == activePiece.getFile() && p.getRank() == activePiece.getRank()) {
-				matchedPiece = p;
+				matchedPiece = activePiece;
 				break;
 			}
 		}

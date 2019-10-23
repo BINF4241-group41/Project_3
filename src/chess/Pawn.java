@@ -25,6 +25,10 @@ public class Pawn extends Piece {
             return false;
         }
 
+        if (this.rank == rank && this.file == file) {
+            return false;
+        }
+
         if (this.color == Color.WHITE) {
 
             // diagonal moves

@@ -251,7 +251,8 @@ public class Game {
 			}
 		}
 
-		piece.movePiece(destinationSquare.getRank(), destinationSquare.getFile());
+		gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
+		nextPlayer.movePiece(piece, destinationSquare.getRank(), destinationSquare.getFile());
 		gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
