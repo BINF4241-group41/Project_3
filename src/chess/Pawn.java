@@ -13,7 +13,7 @@ public class Pawn extends Piece {
     }
 
     public String toString(){
-        return "[" + color.getColorDescription() + name + "]";
+        return color.getColorDescription() + name;
     }
 
     public Pawn makeCopy(){

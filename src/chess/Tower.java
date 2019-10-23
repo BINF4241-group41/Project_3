@@ -13,11 +13,11 @@ public class Tower extends Piece {
     }
 
     public String toString(){
-        return "[" + color.getColorDescription() + name + "]";
+        return color.getColorDescription() + name;
     }
 
     public Tower makeCopy() {
-        return new Tower (this.color, this.rank, this.file);
+        return new Tower(this.color, this.rank, this.file);
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {

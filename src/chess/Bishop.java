@@ -11,12 +11,13 @@ public class Bishop extends Piece {
         this.file = file;
         this.name = "B";
     }
+
     public Bishop makeCopy() {
         return new Bishop(this.color, this.rank, this.file);
     }
 
     public String toString(){
-        return "[" + color.getColorDescription() + name + "]";
+        return color.getColorDescription() + name;
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {

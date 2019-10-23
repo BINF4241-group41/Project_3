@@ -59,6 +59,6 @@ public class GameBoard {
             }
             stringRepresentation += "\n";
         }
-        return "";
+        return stringRepresentation;
     }
 }

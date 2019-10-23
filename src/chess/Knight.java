@@ -17,7 +17,7 @@ public class Knight extends Piece {
     }
 
     public String toString() {
-        return "[" + color.getColorDescription() + name + "]";
+        return color.getColorDescription() + name;
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {

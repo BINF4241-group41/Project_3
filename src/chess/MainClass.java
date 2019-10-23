@@ -21,10 +21,10 @@ public class MainClass {
 		myGame = new Game(playerNames);
 
 
-		System.out.println("Start state:");
+		System.out.println("\nStart state:");
 		System.out.println(myGame.toString());
 
-		while (myGame.getWinnerName() != null) {
+		while (myGame.getWinnerName() == null) {
 
 			System.out.println("\nEnter player " + myGame.getNextPlayerName() + "'s move.");
 			String nextMove = myScanner.nextLine();
@@ -33,7 +33,7 @@ public class MainClass {
 
 			if (!wasSuccessful) {
 				System.out.println("Invalid move.");
-				break; // execute again with same player
+				continue; // execute again with same player
 			}
 
 			System.out.println(myGame.toString());

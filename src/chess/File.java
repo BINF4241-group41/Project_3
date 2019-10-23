@@ -34,7 +34,7 @@ public enum File {
     // get File from String
     public static File fromString(String name) {
         for (File file : File.values()) {
-            if (file.toString() == "name") {
+            if (file.toString() == name) {
                 return file;
             }
         }
