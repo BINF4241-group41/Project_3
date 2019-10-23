@@ -20,15 +20,25 @@ public class Bishop extends Piece {
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
 
+        if (rank == null || file == null) {
+            return false;
+        }
+
+        // origin == destination
+        if (this.rank == rank && this.file == file) {
+            return false;
+        }
+
+        // can't eat piece of same color
+        if (gameBoard.isPositionOccupied(rank, file) && gameBoard.getPieceAtPosition(rank, file).getColor() == this.color) {
+            return false;
+        }
+
         int rankDiff = this.rank.getValue() - rank.getValue();
         int fileDiff = this.file.getValue() - file.getValue();
 
         if (Math.abs(rankDiff) != Math.abs(fileDiff)) {
             return false;
-        }
-
-        if (rankDiff == 0 && fileDiff == 0) {
-            return false; // origin == destination
         }
 
         for (int i = 1; i < Math.abs(rankDiff); ++i) {

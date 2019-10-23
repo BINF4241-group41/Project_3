@@ -17,14 +17,24 @@ public class Queen extends Piece {
         return color.getColorDescription() + name;
     }
 
-    public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) { //bishop+tower
+    public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
+
+        if (rank == null || file == null) {
+            return false;
+        }
+
+        // origin == destination
+        if (this.rank == rank && this.file == file) {
+            return false;
+        }
+
+        // can't eat piece of same color
+        if (gameBoard.isPositionOccupied(rank, file) && gameBoard.getPieceAtPosition(rank, file).getColor() == this.color) {
+            return false;
+        }
 
         int rankDiff = this.rank.getValue() - rank.getValue();
         int fileDiff = this.file.getValue() - file.getValue();
-
-        if (rankDiff == 0 && fileDiff == 0) {
-            return false; // origin == destination
-        }
 
         if (Math.abs(rankDiff) != Math.abs(fileDiff) && rankDiff != 0 && fileDiff != 0) {
             return false;

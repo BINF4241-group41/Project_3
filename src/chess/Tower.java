@@ -19,6 +19,21 @@ public class Tower extends Piece {
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
+
+        if (rank == null || file == null) {
+            return false;
+        }
+
+        // origin == destination
+        if (this.rank == rank && this.file == file) {
+            return false;
+        }
+
+        // can't eat piece of same color
+        if (gameBoard.isPositionOccupied(rank, file) && gameBoard.getPieceAtPosition(rank, file).getColor() == this.color) {
+            return false;
+        }
+
         if (rank != this.rank && file != this.file) {
             return false;
         }

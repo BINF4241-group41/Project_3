@@ -33,14 +33,14 @@ public class GameBoard {
         if (rank == null || file == null) {
             return false;
         }
-        return gameBoard[rank.getValue()][file.getValue()].isOccupied();
+        return gameBoard[rank.getValue() - 1][file.getValue() - 1].isOccupied();
     }
 
     public Piece getPieceAtPosition(Rank rank, File file) {
         if (rank == null || file == null) {
             return null;
         }
-        return gameBoard[rank.getValue()][file.getValue()].getPiece();
+        return gameBoard[rank.getValue() - 1][file.getValue() - 1].getPiece();
     }
 
     // p == null -> piece gets removed

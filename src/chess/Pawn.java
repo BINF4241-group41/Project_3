@@ -29,13 +29,18 @@ public class Pawn extends Piece {
             return false;
         }
 
+        // can't eat piece of same color
+        if (gameBoard.isPositionOccupied(rank, file) && gameBoard.getPieceAtPosition(rank, file).getColor() == this.color) {
+            return false;
+        }
+
         if (this.color == Color.WHITE) {
 
             // diagonal moves
             if (this.file != file) {
-                if (Math.abs(file.getValue() - this.file.getValue()) != 1 || rank.getValue() - this.rank.getValue() != 1) {
+                if (Math.abs(file.getValue() - this.file.getValue()) > 1 || Math.abs(rank.getValue() - this.rank.getValue()) != 1) {
                     return false;
-                } else if (gameBoard.isPositionOccupied(rank, file)) {
+                } else if (gameBoard.isPositionOccupied(rank, file) && gameBoard.getPieceAtPosition(rank, file).getColor() != this.color) {
                     return true; // eat piece
                 }
             }
@@ -87,6 +92,6 @@ public class Pawn extends Piece {
             }
         }
 
-        return false; // origin == destination
+        return false; // origin == destination / couldn't eat
     }
 }

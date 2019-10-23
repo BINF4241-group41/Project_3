@@ -22,12 +22,22 @@ public class King extends Piece {
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
 
+        if (rank == null || file == null) {
+            return false;
+        }
+
+        // origin == destination
+        if (this.rank == rank && this.file == file) {
+            return false;
+        }
+
+        // can't eat piece of same color
+        if (gameBoard.isPositionOccupied(rank, file) && gameBoard.getPieceAtPosition(rank, file).getColor() == this.color) {
+            return false;
+        }
+
         if (Math.abs(rank.getValue() - this.rank.getValue()) > MAX_MOV) return false;
         if (Math.abs(file.getValue() - this.file.getValue()) > MAX_MOV) return false;
-
-        if (this.rank == rank && this.file == file) {
-            return false; // origin == destination
-        }
 
         return true;
     }
