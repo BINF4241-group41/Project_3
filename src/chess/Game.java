@@ -11,7 +11,7 @@ public class Game {
 	private Player whitePlayer;
 	private Player blackPlayer;
 
-	private String winnerName = null;
+	private Player winner;
 
 	private Player nextPlayer; // can play next move
 
@@ -21,7 +21,7 @@ public class Game {
 	}
 
 	public String getWinnerName() {
-		return winnerName;
+		return (winner != null ? winner.getName() : null);
 	}
 
 	public Game(String[] playerNames) {
@@ -263,5 +263,35 @@ public class Game {
 
 	public String toString() {
 		return gameBoard.toString();
+	}
+
+
+	// Returns true if nextPlayer is in check situation.
+	private boolean isCheck() {
+
+		Rank kingRank = null;
+		File kingFile = null;
+
+		ArrayList<Piece> nextPlayerPieces = nextPlayer.getActivePieces();
+
+		// match piece type
+		for (Piece p : nextPlayerPieces) {
+			if (p.getName() == "K") {
+				kingRank = p.getRank();
+				kingFile = p.getFile();
+			}
+		}
+
+		otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		ArrayList<Piece> otherPlayerPieces = otherPlayer.getActivePieces();
+
+		// match piece type
+		for (Piece p : otherPlayerPieces) {
+			if (p.isMoveAllowed(this.gameBoard, kingRank, kingFile)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

@@ -3,6 +3,10 @@ Implement special moves (Promotion, Castle, ...):
     - Implement regex for them (in isWellformedMoveDescription()).
     - Implement actual move.
 
-Implement checking for check/checkmate.
+Implement checking for checkmate (with corresponding string input).
+
+Implement checking for x if capture is made.
 
 Check if rank, file aren't null in Pieces constructors.
+
+(Make copy of GameBoard objects when passing them to other objects.)
