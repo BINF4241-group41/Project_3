@@ -26,7 +26,7 @@ public class GameBoard {
         if (rank == null || file == null) {
             return null;
         }
-        return gameBoard[rank.getValue()][file.getValue()].makeCopy();
+        return gameBoard[rank.getValue() - 1][file.getValue() - 1].makeCopy();
     }
 
     public boolean isPositionOccupied(Rank rank, File file) {

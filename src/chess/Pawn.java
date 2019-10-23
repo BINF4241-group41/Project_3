@@ -3,8 +3,6 @@ package chess;
 
 public class Pawn extends Piece {
 
-    private final String name;
-
     public Pawn(Color color, Rank rank, File file) {
         this.color = color;
         this.rank = rank;

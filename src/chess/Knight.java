@@ -3,8 +3,6 @@ package chess;
 
 public class Knight extends Piece {
 
-    private final String name;
-
     public Knight(Color color, Rank rank, File file) {
         this.color = color;
         this.rank = rank;

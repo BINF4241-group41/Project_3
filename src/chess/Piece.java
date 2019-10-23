@@ -6,6 +6,7 @@ public abstract class Piece {
 	protected Color color;
 	protected Rank rank;
 	protected File file;
+	protected String name;
 
 	public void movePiece(Rank rank, File file) {
 		if (rank != null && file != null) {
@@ -18,6 +19,8 @@ public abstract class Piece {
 		this.rank = null;
 		this.file = null;
 	}
+
+	public String getName() { return this.name; }
 
 	public Rank getRank() { return rank; }
 

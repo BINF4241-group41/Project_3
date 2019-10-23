@@ -3,7 +3,6 @@ package chess;
 
 public class King extends Piece {
 
-    private final String name;
     private static final int MAX_MOV = 1;
 
     public King(Color color, Rank rank, File file) {

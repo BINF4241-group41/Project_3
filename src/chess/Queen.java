@@ -2,8 +2,6 @@ package chess;
 
 public class Queen extends Piece {
 
-    private final String name;
-
     public Queen(Color color, Rank rank, File file) {
         this.color = color;
         this.rank = rank;

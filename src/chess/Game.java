@@ -138,7 +138,7 @@ public class Game {
 
 		// match piece type
 		for (Piece p : pieces) {
-			if (p.toString() == pieceString) {
+			if (p.getName() == pieceString) {
 				matchedPieces.add(p);
 			}
 		}

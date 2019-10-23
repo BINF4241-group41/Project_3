@@ -2,8 +2,6 @@ package chess;
 
 
 public class Tower extends Piece {
-   
-    private final String name;
     
     public Tower(Color color, Rank rank, File file){
         this.color = color;

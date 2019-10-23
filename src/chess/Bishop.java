@@ -3,8 +3,6 @@ package chess;
 
 public class Bishop extends Piece {
 
-    private final String name;
-
     public Bishop(Color color, Rank rank, File file){
         this.color = color;
         this.rank = rank;
