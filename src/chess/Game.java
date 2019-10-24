@@ -231,10 +231,56 @@ public class Game {
 		}
 
 		boolean isPromotion = moveDescription.matches(".*[TNBQ]");
-		boolean isCheck = moveDescription.matches(".*+");
+		boolean isCheck = moveDescription.matches(".*[+]");
 
 		if (isPromotion || isCheck) {
-			moveDescription = moveDescription(0, moveDescription.length() - 1);
+			moveDescription = moveDescription.substring(0, moveDescription.length() - 1);
+		}
+
+		// castling
+		if (moveDescription.contains("0-0")) {
+
+			ArrayList<Piece> pieces = nextPlayer.getActivePieces();
+			King king = null;
+			Tower tower = null;
+
+			for (Piece p : pieces) {
+				if (p.getName().equals("K")) {
+					king = (King) p;
+				}
+				else if (p.getName().equals("T") && p.getFile() == File.valueOf(8) && moveDescription.equals("0-0")) {
+					tower = (Tower) p; // kingside
+				}
+				else if (p.getName().equals("T") && p.getFile() == File.valueOf(1) && moveDescription.equals("0-0-0")) {
+					tower = (Tower) p; // queenside
+				}
+			}
+
+			if (king != null && tower != null && !isCheck(this.gameBoard, this.nextPlayer)) {
+				if (king.canCastle(gameBoard.makeCopy(), tower)) {
+					if (moveDescription.equals("0-0")) { // kingside
+						nextPlayer.movePiece(king, king.getRank(), File.valueOf(7));
+						nextPlayer.movePiece(tower, tower.getRank(), File.valueOf(6));
+						gameBoard.setPieceAtPosition(king.makeCopy(), king.getRank(), File.valueOf(7));
+						gameBoard.setPieceAtPosition(tower.makeCopy(), tower.getRank(), File.valueOf(6));
+					}
+					else if (moveDescription.equals("0-0")) { // queenside
+						nextPlayer.movePiece(king, king.getRank(), File.valueOf(3));
+						nextPlayer.movePiece(tower, tower.getRank(), File.valueOf(4));
+						gameBoard.setPieceAtPosition(king.makeCopy(), king.getRank(), File.valueOf(3));
+						gameBoard.setPieceAtPosition(tower.makeCopy(), tower.getRank(), File.valueOf(4));
+					}
+				}
+			}
+
+			nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+
+			// check if next player has lost
+			if (isCheckmate(nextPlayer)) {
+				this.winner = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+			}
+
+			return true;
 		}
 
 		Piece piece = identifyPiece(moveDescription);
@@ -243,7 +289,6 @@ public class Game {
 			return false;
 		}
 
-		if ()
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.parseInt(inputRank)), File.fromString(inputFile));

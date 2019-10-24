@@ -4,7 +4,7 @@ package chess;
 public class King extends Piece {
 
     private static final int MAX_MOV = 1;
-    private boolean checked = false;
+    private boolean hasBeenMoved = false;
 
     public King(Color color, Rank rank, File file) {
         this.color = color;
@@ -44,11 +44,41 @@ public class King extends Piece {
     }
 
 
-    public void resetCheck(King king) {
-        this.checked = false;
+    public void movePiece(Rank rank, File file) {
+        if (rank != null && file != null) {
+            this.rank = rank;
+            this.file = file;
+            hasBeenMoved = true;
+        }
     }
 
-    public boolean canICastling(King king) {
+    public boolean canCastle(GameBoard board, Tower tower) {
+
+        if (this.hasBeenMoved || tower.hasBeenMoved() || this.rank != tower.getRank() || this.color != tower.getColor()) {
+            return false;
+        }
+
+        for (int fileCounter = Math.min(this.file.getValue(), tower.getFile().getValue()); fileCounter < Math.max(this.file.getValue(), tower.getFile().getValue()); ++fileCounter) {
+
+            if (board.isPositionOccupied(this.rank, File.valueOf(fileCounter))) {
+                return false;
+            }
+            if (fileCounter == 2) {
+                continue; // queenside castling, square bewteen tower and king
+            }
+
+            for (int rank = 7; rank >= 0; --rank) { // horizontal (1-8)
+                for (int file = 0; file < 8; ++file) { // vertical (a-h)
+                    if (board.isPositionOccupied(Rank.valueOf(rank + 1), File.valueOf(file + 1))) {
+                        Piece p = board.getPieceAtPosition(Rank.valueOf(rank + 1),  File.valueOf(file + 1));
+                        if (p.getColor() != this.color && p.isMoveAllowed(board, this.rank, File.valueOf(fileCounter))) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
         return true;
     }
 }

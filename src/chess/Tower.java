@@ -2,7 +2,9 @@ package chess;
 
 
 public class Tower extends Piece {
-    
+
+    private boolean hasBeenMoved = false;
+
     public Tower(Color color, Rank rank, File file){
         this.color = color;
         this.rank = rank;
@@ -16,6 +18,18 @@ public class Tower extends Piece {
 
     public Tower makeCopy() {
         return new Tower(this.color, this.rank, this.file);
+    }
+
+    public void movePiece(Rank rank, File file) {
+        if (rank != null && file != null) {
+            this.rank = rank;
+            this.file = file;
+            hasBeenMoved = true;
+        }
+    }
+
+    public boolean hasBeenMoved() {
+        return this.hasBeenMoved;
     }
 
     public boolean isMoveAllowed(GameBoard gameBoard, Rank rank, File file) {
@@ -70,5 +84,5 @@ public class Tower extends Piece {
         else {
             return false;
         }
-    } 
+    }
 }
