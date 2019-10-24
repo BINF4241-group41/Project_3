@@ -49,5 +49,6 @@ public class King extends Piece {
     }
 
     public boolean canICastling(King king) {
+        return true;
     }
 }

@@ -116,7 +116,18 @@ public class Game {
 		boolean isValidNormal = moveDescription.matches("[TNBQK]?[a-h]?[1-8]?x?[a-h][1-8]") && !moveDescription.matches("[TNBQK]?[1-8]x?[a-h][1-8]");
 
 		if (!isValidNormal) {
-			// check special cases
+			// Promotion
+			if (moveDescription.matches("x?[a-h][1-8][TNBQ]")) {
+				return true;
+			}
+			// king-/ queenside castling
+			if (moveDescription.equals("0-0") || moveDescription.equals("0-0-0")) {
+				return true;
+			}
+			// check
+			if (moveDescription.matches("[TNBQK]?[a-h]?[1-8]?x?[a-h][1-8]+") && !moveDescription.matches("[TNBQK]?[1-8]x?[a-h][1-8]+")) {
+				return true;
+			}
 			return false; // also no special case
 		}
 
@@ -278,7 +289,7 @@ public class Game {
 			}
 		}
 
-		otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 		ArrayList<Piece> otherPlayerPieces = otherPlayer.getActivePieces();
 
 		// match piece type
