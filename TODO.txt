@@ -1,7 +1,7 @@
 
 Implement special moves (Promotion, Castle, ...):
-    - Implement regex for them (in isWellformedMoveDescription()).
     - Implement actual move.
+    - en passant (Game needs memory for last move)
 
 (Check string input for check(mate) if it occurs.)
 

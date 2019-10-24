@@ -117,7 +117,7 @@ public class Game {
 
 		if (!isValidNormal) {
 			// Promotion
-			if (moveDescription.matches("x?[a-h][1-8][TNBQ]")) {
+			if (moveDescription.matches("[a-h]?[27]?x?[a-h][18][TNBQ]") && !moveDescription.matches("[18]x?[a-h][18][TNBQ]")) {
 				return true;
 			}
 			// king-/ queenside castling
@@ -241,26 +241,39 @@ public class Game {
 
 		// Piece gets eaten by piece who lands there
 		if (destinationSquare.getPiece() != null) {
+			if (!moveDescription.contains("x")) {// capture wasn't indicated
+				return false;
+			}
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 			otherPlayer.eatPiece(destinationSquare.getRank(), destinationSquare.getFile());
+			gameBoard.setPieceAtPosition(null, destinationSquare.getRank(), destinationSquare.getFile()); // explicitly remove it
 		}
 
-		// Piece gets eaten py Pawn by getting jumped over (only possible if Pawn hasn't moved yet)
-		if (piece instanceof Pawn) {
-			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
-			if (destinationSquare.getRank().getValue() - piece.getRank().getValue() == 2 && gameBoard.getPieceAtPosition(Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile()) != null) {
-					gameBoard.setPieceAtPosition(null, Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile());
-					otherPlayer.eatPiece(Rank.valueOf(destinationSquare.getRank().getValue() - 1), destinationSquare.getFile());
+		// Promotion
+		if (moveDescription.matches(".*[TNBQ]")) {
+			Piece newPiece = null;
+			if (moveDescription.contains("Q")) {
+				newPiece = new Queen(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
 			}
-			if (piece.getRank().getValue() - destinationSquare.getRank().getValue() == 2 && gameBoard.getPieceAtPosition(Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile()) != null) {
-					gameBoard.setPieceAtPosition(null, Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile());
-					otherPlayer.eatPiece(Rank.valueOf(destinationSquare.getRank().getValue() + 1), destinationSquare.getFile());
+			else if (moveDescription.contains("T")) {
+				newPiece = new Tower(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
+			} else if (moveDescription.contains("N")) {
+				newPiece = new Knight(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
 			}
+			else if (moveDescription.contains("B")) {
+				newPiece = new Bishop(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
+			}
+			this.nextPlayer.eatPiece(destinationSquare.getRank(), destinationSquare.getFile());
+			this.gameBoard.setPieceAtPosition(null, destinationSquare.getRank(), destinationSquare.getFile());
+			this.nextPlayer.addPiece(newPiece);
+			this.gameBoard.setPieceAtPosition(newPiece, newPiece.getRank(), newPiece.getFile());
 		}
 
-		gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
-		nextPlayer.movePiece(piece, destinationSquare.getRank(), destinationSquare.getFile());
-		gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
+		else {
+			gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
+			nextPlayer.movePiece(piece, destinationSquare.getRank(), destinationSquare.getFile());
+			gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
+		}
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 
