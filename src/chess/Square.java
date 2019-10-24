@@ -31,7 +31,7 @@ public class Square {
 	}
 
 	public void setPiece(Piece piece) {
-		this.piece = piece;
+		this.piece = (piece != null ? piece.makeCopy() : null);
 	}
 
 	public void removePiece() {
