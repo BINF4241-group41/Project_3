@@ -40,12 +40,28 @@ public class GameBoard {
         if (rank == null || file == null) {
             return null;
         }
-        return gameBoard[rank.getValue() - 1][file.getValue() - 1].getPiece();
+        if (!isPositionOccupied(rank, file)) {
+            return null;
+        }
+        return gameBoard[rank.getValue() - 1][file.getValue() - 1].getPiece().makeCopy();
     }
 
     // p == null -> piece gets removed
     public void setPieceAtPosition(Piece p, Rank rank, File file) {
         gameBoard[rank.getValue() - 1][file.getValue() - 1].setPiece(p);
+    }
+
+    public GameBoard makeCopy() {
+        GameBoard newBoard = new GameBoard();
+
+        for (int rank = 7; rank >= 0; --rank) { // horizontal (1-8)
+            for (int file = 0; file < 8; ++file) { // vertical (a-h)
+                Piece p = (isPositionOccupied(Rank.valueOf(rank + 1),  File.valueOf(file + 1)) ? this.gameBoard[rank][file].getPiece().makeCopy() : null);
+                newBoard.setPieceAtPosition(p, Rank.valueOf(rank + 1), File.valueOf(file + 1));
+            }
+        }
+
+        return newBoard;
     }
 
     public String toString() {

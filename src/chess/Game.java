@@ -11,10 +11,14 @@ public class Game {
 	private Player whitePlayer;
 	private Player blackPlayer;
 
-	private Player winner;
+	private Player winner = null;
 
 	private Player nextPlayer; // can play next move
 
+
+	public boolean isFinished() {
+		return (winner != null);
+	}
 
 	public String getNextPlayerName() {
 		return nextPlayer.getName();
@@ -188,9 +192,6 @@ public class Game {
 			if (originString.length() == 0) {
 				return null;
 			}
-
-			// TODO: Implement special cases.
-
 			else if (originString.length() == 1) {
 				originFile = File.fromString(originString);
 			}
@@ -229,19 +230,27 @@ public class Game {
 			return false;
 		}
 
+		boolean isPromotion = moveDescription.matches(".*[TNBQ]");
+		boolean isCheck = moveDescription.matches(".*+");
+
+		if (isPromotion || isCheck) {
+			moveDescription = moveDescription(0, moveDescription.length() - 1);
+		}
+
 		Piece piece = identifyPiece(moveDescription);
 
 		if (piece == null) {
 			return false;
 		}
 
+		if ()
 		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
 		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
 		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.parseInt(inputRank)), File.fromString(inputFile));
 
 		// Piece gets eaten by piece who lands there
 		if (destinationSquare.getPiece() != null) {
-			if (!moveDescription.contains("x")) {// capture wasn't indicated
+			if (!moveDescription.contains("x")) { // capture wasn't indicated
 				return false;
 			}
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
@@ -251,22 +260,11 @@ public class Game {
 
 		// Promotion
 		if (moveDescription.matches(".*[TNBQ]")) {
-			Piece newPiece = null;
-			if (moveDescription.contains("Q")) {
-				newPiece = new Queen(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
-			}
-			else if (moveDescription.contains("T")) {
-				newPiece = new Tower(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
-			} else if (moveDescription.contains("N")) {
-				newPiece = new Knight(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
-			}
-			else if (moveDescription.contains("B")) {
-				newPiece = new Bishop(piece.getColor(), destinationSquare.getRank(), destinationSquare.getFile());
-			}
-			this.nextPlayer.eatPiece(destinationSquare.getRank(), destinationSquare.getFile());
-			this.gameBoard.setPieceAtPosition(null, destinationSquare.getRank(), destinationSquare.getFile());
-			this.nextPlayer.addPiece(newPiece);
-			this.gameBoard.setPieceAtPosition(newPiece, newPiece.getRank(), newPiece.getFile());
+			inputRank = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd character
+			inputFile = moveDescription.substring(moveDescription.length() - 3, moveDescription.length() - 2); // 3rd last character
+			destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.parseInt(inputRank)), File.fromString(inputFile));
+			executePromotion(moveDescription.substring(moveDescription.length() - 1), piece, destinationSquare.getRank(), destinationSquare.getFile());
+
 		}
 
 		else {
@@ -277,38 +275,96 @@ public class Game {
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 
+		// check if next player has lost
+		if (isCheckmate(nextPlayer)) {
+			this.winner = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		}
+
 		return true;
 	}
 
+	// For pawn p, promote.
+	private void executePromotion(String promotionPieceName, Piece piece, Rank rank, File file) {
+
+		Piece newPiece = null;
+
+		if (promotionPieceName.equals("Q")) {
+			newPiece = new Queen(piece.getColor(), rank, file);
+		}
+		else if (promotionPieceName.equals("T")) {
+			newPiece = new Tower(piece.getColor(), rank, file);
+		} else if (promotionPieceName.equals("N")) {
+			newPiece = new Knight(piece.getColor(), rank, file);
+		}
+		else if (promotionPieceName.equals("B")) {
+			newPiece = new Bishop(piece.getColor(), rank, file);
+		}
+		else {
+			return; // error?
+		}
+
+		this.nextPlayer.eatPiece(rank, file);
+		this.gameBoard.setPieceAtPosition(null, rank, file);
+		this.nextPlayer.addPiece(newPiece);
+		this.gameBoard.setPieceAtPosition(newPiece, newPiece.getRank(), newPiece.getFile());
+	}
 
 	public String toString() {
 		return gameBoard.toString();
 	}
 
 
-	// Returns true if nextPlayer is in check situation.
-	private boolean isCheck() {
+	// Returns true if Player p is in checkmate situation -> p has lost.
+	private boolean isCheckmate(Player player) {
+		if (!isCheck(this.gameBoard, player)) {
+			return false;
+		}
+
+		ArrayList<Piece> playerPieces = player.getActivePieces();
+
+		// match piece type
+		for (Piece p : playerPieces) {
+			for (int rankCount = 1; rankCount <= 8; ++rankCount) { // horizontal (1-8)
+				for (int fileCount = 1; fileCount <= 8; ++fileCount) { // vertical (a-h)
+					if (p.isMoveAllowed(gameBoard, Rank.valueOf(rankCount), File.valueOf(fileCount))) {
+						GameBoard boardCopy = this.gameBoard.makeCopy();
+						boardCopy.setPieceAtPosition(p, Rank.valueOf(rankCount), File.valueOf(fileCount));
+						if (!isCheck(boardCopy, player)) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+	// Returns true if Player p is in check situation.
+	private boolean isCheck(GameBoard board, Player player) {
 
 		Rank kingRank = null;
 		File kingFile = null;
 
-		ArrayList<Piece> nextPlayerPieces = nextPlayer.getActivePieces();
+		ArrayList<Piece> playerPieces = player.getActivePieces();
 
 		// match piece type
-		for (Piece p : nextPlayerPieces) {
+		for (Piece p : playerPieces) {
 			if (p.getName() != null && p.getName().equals("K")) {
 				kingRank = p.getRank();
 				kingFile = p.getFile();
 			}
 		}
 
-		Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		Player otherPlayer = (player == whitePlayer ? blackPlayer : whitePlayer);
 		ArrayList<Piece> otherPlayerPieces = otherPlayer.getActivePieces();
 
 		// match piece type
 		for (Piece p : otherPlayerPieces) {
-			if (p.isMoveAllowed(this.gameBoard, kingRank, kingFile)) {
-				return true;
+			if (p.isMoveAllowed(board, kingRank, kingFile)) {
+				if (p.getColor() == board.getPieceAtPosition(p.getRank(), p.getFile()).getColor()) { // when simulating gameBoards in isCheckMate, a piece can get eaten in the simulation
+					return true;
+				}
 			}
 		}
 
