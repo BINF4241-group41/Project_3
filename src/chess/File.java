@@ -28,7 +28,7 @@ public enum File {
 
     // get File from int
     public static File valueOf(int fileType) {
-        return (File) intMap.get(fileType);
+        return intMap.get(fileType);
     }
 
     // get File from String
