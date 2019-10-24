@@ -4,6 +4,7 @@ package chess;
 public class King extends Piece {
 
     private static final int MAX_MOV = 1;
+    private boolean checked = false;
 
     public King(Color color, Rank rank, File file) {
         this.color = color;
@@ -40,5 +41,13 @@ public class King extends Piece {
         if (Math.abs(file.getValue() - this.file.getValue()) > MAX_MOV) return false;
 
         return true;
+    }
+
+
+    public void resetCheck(King king) {
+        this.checked = false;
+    }
+
+    public boolean canICastling(King king) {
     }
 }

@@ -66,16 +66,15 @@ public class GameBoard {
     }
 
     public String toString() {
-        String stringRepresentation = "";
-
+        StringBuilder bld = new StringBuilder();
         for (int rank = 7; rank >= 0; --rank) { // horizontal (1-8)
             for (int file = 0; file < 8; ++file) { // vertical (a-h)
-                stringRepresentation += "[";
-                stringRepresentation += (gameBoard[rank][file].getPiece() != null ? gameBoard[rank][file].getPiece().toString() : "");
-                stringRepresentation += "]";
+                bld.append("[");
+                bld.append((gameBoard[rank][file].getPiece() != null ? gameBoard[rank][file].getPiece().toString() : ""));
+                bld.append("]");
             }
-            stringRepresentation += "\n";
+            bld.append("\n");
         }
-        return stringRepresentation;
+        return bld.toString();
     }
 }
