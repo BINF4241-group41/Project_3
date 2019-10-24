@@ -24,7 +24,7 @@ public class MainClass {
 		System.out.println("\nStart state:");
 		System.out.println(myGame.toString());
 
-		while (myGame.getWinnerName() == null) {
+		while (!myGame.isFinished()) {
 
 			System.out.println("\nEnter player " + myGame.getNextPlayerName() + "'s move.");
 			String nextMove = myScanner.nextLine();
