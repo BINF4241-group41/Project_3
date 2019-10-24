@@ -20,6 +20,10 @@ public class Game {
 		return nextPlayer.getName();
 	}
 
+	public boolean isFinished() {
+		return (winner != null);
+	}
+
 	public String getWinnerName() {
 		return (winner != null ? winner.getName() : null);
 	}
@@ -234,6 +238,7 @@ public class Game {
 			otherPlayer.eatPiece(destinationSquare.getRank(), destinationSquare.getFile());
 		}
 
+		/* Not possible.
 		// Piece gets eaten py Pawn by getting jumped over (only possible if Pawn hasn't moved yet)
 		if (piece instanceof Pawn) {
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
@@ -250,12 +255,18 @@ public class Game {
 				}
 			}
 		}
+		*/
 
 		gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
 		nextPlayer.movePiece(piece, destinationSquare.getRank(), destinationSquare.getFile());
 		gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+
+		// check if next player has lost
+		if (isCheckmate(nextPlayer)) {
+			this.winner = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		}
 
 		return true;
 	}
@@ -266,29 +277,58 @@ public class Game {
 	}
 
 
-	// Returns true if nextPlayer is in check situation.
-	private boolean isCheck() {
+	// Returns true if Player p is in checkmate situation -> p has lost.
+	private boolean isCheckmate(Player player) {
+		if (!isCheck(this.gameBoard, player)) {
+			return false;
+		}
+
+		ArrayList<Piece> playerPieces = player.getActivePieces();
+
+		// match piece type
+		for (Piece p : playerPieces) {
+			for (int rankCount = 1; rankCount <= 8; ++rankCount) { // horizontal (1-8)
+				for (int fileCount = 1; fileCount <= 8; ++fileCount) { // vertical (a-h)
+					if (p.isMoveAllowed(gameBoard, Rank.valueOf(rankCount), File.valueOf(fileCount))) {
+						GameBoard boardCopy = this.gameBoard.makeCopy();
+						boardCopy.setPieceAtPosition(p, Rank.valueOf(rankCount), File.valueOf(fileCount));
+						if (!isCheck(boardCopy, player)) {
+							return false;
+						}
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+
+
+	// Returns true if Player p is in check situation.
+	private boolean isCheck(GameBoard board, Player player) {
 
 		Rank kingRank = null;
 		File kingFile = null;
 
-		ArrayList<Piece> nextPlayerPieces = nextPlayer.getActivePieces();
+		ArrayList<Piece> playerPieces = player.getActivePieces();
 
 		// match piece type
-		for (Piece p : nextPlayerPieces) {
+		for (Piece p : playerPieces) {
 			if (p.getName() == "K") {
 				kingRank = p.getRank();
 				kingFile = p.getFile();
 			}
 		}
 
-		otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		Player otherPlayer = (player == whitePlayer ? blackPlayer : whitePlayer);
 		ArrayList<Piece> otherPlayerPieces = otherPlayer.getActivePieces();
 
 		// match piece type
 		for (Piece p : otherPlayerPieces) {
-			if (p.isMoveAllowed(this.gameBoard, kingRank, kingFile)) {
-				return true;
+			if (p.isMoveAllowed(board, kingRank, kingFile)) {
+				if (p.getColor() == board.getPieceAtPosition(p.getRank(), p.getFile()).getColor()) { // when simulating gameBoards in isCheckMate, a piece can get eaten in the simulation
+					return true;
+				}
 			}
 		}
 
