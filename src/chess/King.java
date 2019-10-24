@@ -43,14 +43,6 @@ public class King extends Piece {
         return true;
     }
 
-    public Castling (Square origin, Square dest, Tower tower) {
-        this.origin = origin;
-        this.dest = dest;
-        this.moved = origin.getPiece();
-        this.removed = dest.getPiece();
-        this.tower = tower;
-        comprobarTipoJugada ();
-    }
 
     public void resetCheck(King king) {
         this.checked = false;
