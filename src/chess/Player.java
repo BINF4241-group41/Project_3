@@ -9,9 +9,9 @@ public class Player {
 	
 	private String name;
 	
-	private ArrayList<Piece> activePieces = new ArrayList<Piece>(); // active pieces
+	private ArrayList<Piece> activePieces = new ArrayList<>(); // active pieces
 
-	private ArrayList<Piece> eatenPieces = new ArrayList<Piece>(); // eaten pieces
+	private ArrayList<Piece> eatenPieces = new ArrayList<>(); // eaten pieces
 
 
 	public String getName() {
@@ -52,7 +52,7 @@ public class Player {
 	}
 
 	public ArrayList<Piece> getActivePieces() {
-		ArrayList<Piece> piecesCopies = new ArrayList<Piece>();
+		ArrayList<Piece> piecesCopies = new ArrayList<>();
 
 		for (Piece p : activePieces) {
 			piecesCopies.add(p.makeCopy());

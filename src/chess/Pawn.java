@@ -56,10 +56,8 @@ public class Pawn extends Piece {
             }
 
             // one step forward
-            else if (rank.getValue() - this.rank.getValue() == 1) {
-                if (!gameBoard.isPositionOccupied(rank, file)) {
-                    return true;
-                }
+            else if (rank.getValue() - this.rank.getValue() == 1 && !gameBoard.isPositionOccupied(rank, file)) {
+                return true;
             }
         }
 
@@ -85,10 +83,8 @@ public class Pawn extends Piece {
             }
 
             // one step forward
-            else if (this.rank.getValue() - rank.getValue() == 1) {
-                if (!gameBoard.isPositionOccupied(rank, file)) {
-                    return true;
-                }
+            else if (this.rank.getValue() - rank.getValue() == 1 && !gameBoard.isPositionOccupied(rank, file)) {
+                return true;
             }
         }
 

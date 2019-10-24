@@ -34,17 +34,17 @@ public class Knight extends Piece {
             return false;
         }
 
-        if (this.file.getValue() + 2 == file.getValue()){
-            if (Math.abs(this.rank.getValue() - rank.getValue()) == 1) return true;
+        if (this.file.getValue() + 2 == file.getValue() && Math.abs(this.rank.getValue() - rank.getValue()) == 1){
+            return true;
         }
-        if (this.file.getValue() + 1 == file.getValue()) {
-            if (Math.abs(this.rank.getValue() - rank.getValue()) == 2) return true;
+        if (this.file.getValue() + 1 == file.getValue() && Math.abs(this.rank.getValue() - rank.getValue()) == 2) {
+            return true;
         }
-        if (this.file.getValue() - 1 == file.getValue()) {
-            if (Math.abs(this.rank.getValue() - rank.getValue()) == 2) return true;
+        if (this.file.getValue() - 1 == file.getValue() && Math.abs(this.rank.getValue() - rank.getValue()) == 2) {
+            return true;
         }
-        if (this.file.getValue() - 2 == file.getValue()) {
-            if (Math.abs(this.rank.getValue() - rank.getValue()) == 1) return true;
+        if (this.file.getValue() - 2 == file.getValue() && Math.abs(this.rank.getValue() - rank.getValue()) == 1) {
+           return true;
         }
         return false;
     }
