@@ -32,7 +32,7 @@ public enum Rank {
 
     // get File from int
     public static Rank valueOf(int rankType) {
-        return (Rank) intMap.get(rankType);
+        return intMap.get(rankType);
     }
 
     public int getValue(){
