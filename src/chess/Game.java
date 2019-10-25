@@ -259,7 +259,6 @@ public class Game {
 	public boolean makeMove(String moveDescription) {
 
 		if (!isWellformedMoveDescription(moveDescription)) {
-			//System.out.println("Malformed input.");
 			return false;
 		}
 
@@ -338,7 +337,6 @@ public class Game {
 		Piece piece = identifyPiece(moveDescription);
 
 		if (piece == null) {
-			//System.out.println("No piece found.");
 			return false;
 		}
 
@@ -346,7 +344,6 @@ public class Game {
 		File inputFile = File.fromString(moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last character
 		
 		if (wouldResultInCheckmate(gameBoard, piece, inputRank, inputFile)) {
-			//System.out.println("Move would result in checkmate.");
 			return false;
 		}
 
@@ -426,7 +423,6 @@ public class Game {
 			newPiece = new Bishop(piece.getColor(), rank, file);
 		}
 		else {
-			//System.out.println("couldn't match");
 			return; // error?
 		}
 
@@ -469,11 +465,14 @@ public class Game {
 
 		// match piece type
 		for (Piece p : playerPieces) {
+			
 			for (int rankCount = 1; rankCount <= 8; ++rankCount) { // horizontal (1-8)
 				for (int fileCount = 1; fileCount <= 8; ++fileCount) { // vertical (a-h)
+					
 					if (p.isMoveAllowed(gameBoard, Rank.valueOf(rankCount), File.valueOf(fileCount))) {
 						GameBoard boardCopy = this.gameBoard.makeCopy();
-						boardCopy.setPieceAtPosition(p, Rank.valueOf(rankCount), File.valueOf(fileCount));
+						boardCopy.setPieceAtPosition(p.makeCopy(), Rank.valueOf(rankCount), File.valueOf(fileCount));
+						
 						if (!isCheck(boardCopy, player)) {
 							return false;
 						}
@@ -481,7 +480,7 @@ public class Game {
 				}
 			}
 		}
-
+		
 		return true;
 	}
 

@@ -42,11 +42,10 @@ public class Queen extends Piece {
 
         // horizontal movement
         if (rankDiff == 0 && fileDiff != 0) {
-            for (int i = 1; i < Math.abs(fileDiff); ++i) {
-                if (fileDiff < 0) {
-                    i = -i;
-                }
-                if (gameBoard.isPositionOccupied(rank, File.valueOf(file.getValue() + i))) {
+            int minFile = Math.min(file.getValue(), this.file.getValue());
+
+            for (int i = minFile + 1; i < Math.max(file.getValue(), this.file.getValue()); ++i) {
+                if (gameBoard.isPositionOccupied(rank, File.valueOf(i))) {
                     return false;
                 }
             }
@@ -55,11 +54,11 @@ public class Queen extends Piece {
 
         // vertical movement
         else if (rankDiff != 0 && fileDiff == 0) {
-            for (int i = 1; i < Math.abs(rankDiff); ++i) {
-                if (rankDiff < 0) {
-                    i = -i;
-                }
-                if (gameBoard.isPositionOccupied(Rank.valueOf(rank.getValue() + i), file)) {
+			
+			int minRank = Math.min(rank.getValue(), this.rank.getValue());
+
+            for (int i = minRank + 1; i < Math.max(rank.getValue(), this.rank.getValue()); ++i) {
+                if (gameBoard.isPositionOccupied(Rank.valueOf(i), file)) {
                     return false;
                 }
             }
