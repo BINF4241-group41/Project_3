@@ -1,2 +1,6 @@
 
 Checking for bugs (different moves, checkmate correctly working, ...).
+
+Checking for check(mate) (if indicated in input).
+
+Checkmate currently doesn't quite work (may softlock / invalid move).

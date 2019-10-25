@@ -259,6 +259,7 @@ public class Game {
 	public boolean makeMove(String moveDescription) {
 
 		if (!isWellformedMoveDescription(moveDescription)) {
+			//System.out.println("Malformed input.");
 			return false;
 		}
 
@@ -309,7 +310,7 @@ public class Game {
 						gameBoard.setPieceAtPosition(king.makeCopy(), king.getRank(), File.valueOf(7));
 						gameBoard.setPieceAtPosition(tower.makeCopy(), tower.getRank(), File.valueOf(6));
 					}
-					else if (moveDescription.equals("0-0")) { // queenside
+					else if (moveDescription.equals("0-0-0")) { // queenside
 						gameBoard.setPieceAtPosition(null, king.getRank(), File.valueOf(5));
 						gameBoard.setPieceAtPosition(null, tower.getRank(), File.valueOf(1));
 						nextPlayer.movePiece(king, king.getRank(), File.valueOf(3));
@@ -317,6 +318,9 @@ public class Game {
 						gameBoard.setPieceAtPosition(king.makeCopy(), king.getRank(), File.valueOf(3));
 						gameBoard.setPieceAtPosition(tower.makeCopy(), tower.getRank(), File.valueOf(4));
 					}
+				}
+				else {
+					return false;
 				}
 			}
 
@@ -334,6 +338,7 @@ public class Game {
 		Piece piece = identifyPiece(moveDescription);
 
 		if (piece == null) {
+			//System.out.println("No piece found.");
 			return false;
 		}
 
@@ -341,6 +346,7 @@ public class Game {
 		File inputFile = File.fromString(moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last character
 		
 		if (wouldResultInCheckmate(gameBoard, piece, inputRank, inputFile)) {
+			//System.out.println("Move would result in checkmate.");
 			return false;
 		}
 
@@ -372,7 +378,7 @@ public class Game {
 
 		else {
 			gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
-			nextPlayer.movePiece(piece, inputRank,inputFile);
+			nextPlayer.movePiece(piece, inputRank, inputFile);
 			gameBoard.setPieceAtPosition(piece.makeCopy(), inputRank, inputFile);
 		}
 		
@@ -406,7 +412,7 @@ public class Game {
 	private void executePromotion(String promotionPieceName, Piece piece, Rank rank, File file) {
 
 		Piece newPiece = null;
-System.out.println("Promotion piece name: " + promotionPieceName);
+
 		if (promotionPieceName.equals("Q")) {
 			newPiece = new Queen(piece.getColor(), rank, file);
 		}
@@ -420,7 +426,7 @@ System.out.println("Promotion piece name: " + promotionPieceName);
 			newPiece = new Bishop(piece.getColor(), rank, file);
 		}
 		else {
-			System.out.println("couldn't match");
+			//System.out.println("couldn't match");
 			return; // error?
 		}
 
@@ -445,6 +451,7 @@ System.out.println("Promotion piece name: " + promotionPieceName);
 		GameBoard boardCopy = gameBoard.makeCopy();
 		boardCopy.setPieceAtPosition(null, piece.getRank(), piece.getFile());
 		boardCopy.setPieceAtPosition(piece.makeCopy(), rank, file);
+		
 		if (isCheck(boardCopy, nextPlayer)) {
 			return true;
 		}
