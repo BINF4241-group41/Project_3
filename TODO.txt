@@ -1,6 +1,6 @@
 
 Checking for bugs (different moves, checkmate correctly working, ...).
 
-Checking for check(mate) (if indicated in input).
-
 Not yet tested: checkmate (but isCheckmate() seems to work).
+
+(Implement checkmate input indicator?)

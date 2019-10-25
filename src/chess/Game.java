@@ -378,7 +378,7 @@ public class Game {
 			}
 		}
 
-		// Piece gets eaten by piece who lands there
+		// Piece gets eaten by piece who lands there.
 		if (gameBoard.getPieceAtPosition(inputRank, inputFile) != null) {
 			if (!moveDescription.contains("x")) { // capture wasn't indicated
 				return false;
@@ -388,7 +388,8 @@ public class Game {
 			otherPlayer.eatPiece(inputRank, inputFile);
 			gameBoard.setPieceAtPosition(null, inputRank, inputFile); // explicitly remove it
 		}
-
+		
+		// Piece gets eaten en passant.
 		else if (isEnPassant(piece)) {
 			if (!moveDescription.contains("x")) {
 				return false;
