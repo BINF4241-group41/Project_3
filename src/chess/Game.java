@@ -161,10 +161,8 @@ public class Game {
 		}
 
 		// destination
-		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
-		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
-
-		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)), File.fromString(inputFile));
+		Rank inputRank = Rank.valueOf(Integer.valueOf(moveDescription.substring(moveDescription.length() - 1))); // last character
+		File inputFile = File.fromString(moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last character
 
 		if (pawnEligibleForEnPassant != null && pieceString == "P") {
 			if (pawnEligibleForEnPassant.getRank() == Rank.valueOf(5)) {
@@ -179,7 +177,7 @@ public class Game {
 		Iterator<Piece> iterator = matchedPieces.iterator();
 
 		while (iterator.hasNext()) {
-			if (!iterator.next().isMoveAllowed(this.gameBoard, destinationSquare.getRank(), destinationSquare.getFile())) {
+			if (!iterator.next().isMoveAllowed(this.gameBoard, inputRank, inputFile)) {
 				iterator.remove();
 			}
 		}
@@ -205,7 +203,7 @@ public class Game {
 
 				while (iterator.hasNext()) {
 					Piece nextPiece = iterator.next();
-					if (gameBoard.isPositionOccupied(destinationSquare.getRank(), destinationSquare.getFile())) {
+					if (gameBoard.isPositionOccupied(inputRank, inputFile)) {
 						continue;
 					}
 					else if (isEnPassant(nextPiece)) {
@@ -329,24 +327,29 @@ public class Game {
 			return false;
 		}
 
-		String inputRank = moveDescription.substring(moveDescription.length() - 1); // last character
-		String inputFile = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd last character
-		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.parseInt(inputRank)), File.fromString(inputFile));
+		Rank inputRank = Rank.valueOf(Integer.parseInt(moveDescription.substring(moveDescription.length() - 1))); // last character
+		File inputFile = File.fromString(moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last character
+
+		if (wouldResultInCheckmate(gameBoard, piece, inputRank, inputFile)) {
+			return false;
+		}
 
 		// Piece gets eaten by piece who lands there
-		if (destinationSquare.getPiece() != null) {
+		if (gameBoard.getPieceAtPosition(inputRank, inputFile) != null) {
 			if (!moveDescription.contains("x")) { // capture wasn't indicated
 				return false;
 			}
+
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
-			otherPlayer.eatPiece(destinationSquare.getRank(), destinationSquare.getFile());
-			gameBoard.setPieceAtPosition(null, destinationSquare.getRank(), destinationSquare.getFile()); // explicitly remove it
+			otherPlayer.eatPiece(inputRank, inputFile);
+			gameBoard.setPieceAtPosition(null, inputRank, inputFile); // explicitly remove it
 		}
 
 		else if (isEnPassant(piece)) {
 			if (!moveDescription.contains("x")) {
 				return false;
 			}
+
 			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 			otherPlayer.eatPiece(pawnEligibleForEnPassant.getRank(), pawnEligibleForEnPassant.getFile());
 			gameBoard.setPieceAtPosition(null, pawnEligibleForEnPassant.getRank(), pawnEligibleForEnPassant.getFile()); // explicitly remove it
@@ -354,15 +357,13 @@ public class Game {
 
 		// Promotion
 		if (moveDescription.matches(".*[TNBQ]")) {
-			inputRank = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd character
-			inputFile = moveDescription.substring(moveDescription.length() - 3, moveDescription.length() - 2); // 3rd last character
-			destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.parseInt(inputRank)), File.fromString(inputFile));
-			executePromotion(moveDescription.substring(moveDescription.length() - 1), piece, destinationSquare.getRank(), destinationSquare.getFile());
-
+			inputRank = Rank.valueOf(Integer.parseInt(moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1))); // 2nd character
+			inputFile = File.fromString(moveDescription.substring(moveDescription.length() - 3, moveDescription.length() - 2)); // 3rd last character
+			executePromotion(moveDescription.substring(moveDescription.length() - 1), piece, inputRank, inputFile);
 		}
 
 		else {
-			if (piece.getName() == "P" && Math.abs(piece.getRank().getValue() - destinationSquare.getRank().getValue()) == 2) {
+			if (piece.getName() == "P" && Math.abs(piece.getRank().getValue() - inputRank.getValue()) == 2) {
 				pawnEligibleForEnPassant = (Pawn) piece;
 			}
 			else {
@@ -370,8 +371,8 @@ public class Game {
 			}
 
 			gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
-			nextPlayer.movePiece(piece, destinationSquare.getRank(), destinationSquare.getFile());
-			gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
+			nextPlayer.movePiece(piece, inputRank,inputFile);
+			gameBoard.setPieceAtPosition(piece.makeCopy(), inputRank, inputFile);
 		}
 
 		nextPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
@@ -424,7 +425,23 @@ public class Game {
 	}
 
 
-	// Returns true if Player p is in checkmate situation -> p has lost.
+	// Returns true if executing this move for nextPlayer would result in a checkmate.
+	private boolean wouldResultInCheckmate(GameBoard gameBoard, Piece piece, Rank rank, File file) {
+		if (piece == null) {
+			return false;
+		}
+		
+		GameBoard boardCopy = gameBoard.makeCopy();
+		boardCopy.setPieceAtPosition(null, piece.getRank(), piece.getFile());
+		boardCopy.setPieceAtPosition(piece.makeCopy(), rank, file);
+		if (isCheck(boardCopy, nextPlayer)) {
+			return true;
+		}
+		return false;
+	}
+
+
+	// Returns true if Player p is in checkmate situation (can still move) -> p has lost.
 	private boolean isCheckmate(Player player) {
 		if (!isCheck(this.gameBoard, player)) {
 			return false;
@@ -450,13 +467,28 @@ public class Game {
 		return true;
 	}
 
-	// Returns true if Player p is in check situation.
+	// Returns true if Player player is in check situation for specific board arrangement.
 	private boolean isCheck(GameBoard board, Player player) {
 
 		Rank kingRank = null;
 		File kingFile = null;
 
-		ArrayList<Piece> playerPieces = player.getActivePieces();
+		ArrayList<Piece> playerPieces = new ArrayList<Piece>();
+		ArrayList<Piece> otherPlayerPieces = new ArrayList<Piece>();
+
+		for (int rank = 8; rank >= 1; --rank) {
+			for (int file = 1; file <= 8; ++file) {
+				if (board.isPositionOccupied(Rank.valueOf(rank), File.valueOf(file))) {
+					Piece p = board.getPieceAtPosition(Rank.valueOf(rank), File.valueOf(file));
+					if (p.getColor() == player.getColor()) {
+						playerPieces.add(p);
+					}
+					else {
+						otherPlayerPieces.add(p);
+					}
+				}
+			}
+		}
 
 		// match piece type
 		for (Piece p : playerPieces) {
@@ -466,13 +498,10 @@ public class Game {
 			}
 		}
 
-		Player otherPlayer = (player == whitePlayer ? blackPlayer : whitePlayer);
-		ArrayList<Piece> otherPlayerPieces = otherPlayer.getActivePieces();
-
 		// match piece type
 		for (Piece p : otherPlayerPieces) {
 			if (p.isMoveAllowed(board, kingRank, kingFile)) {
-				if (p.getColor() == board.getPieceAtPosition(p.getRank(), p.getFile()).getColor()) { // when simulating gameBoards in isCheckMate, a piece can get eaten in the simulation
+				if (p.getColor() != board.getPieceAtPosition(p.getRank(), p.getFile()).getColor()) { // when simulating gameBoards in isCheckMate, a piece can get eaten in the simulation
 					return true;
 				}
 			}

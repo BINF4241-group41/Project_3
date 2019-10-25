@@ -1,4 +1,4 @@
 
 (Check string input for check(mate) if it occurs.)
 
-Prevent king suicide (Execute all moves and then roll back, or check at beginning).
+Method isCheck doesn't work correctly -> game can't be won.

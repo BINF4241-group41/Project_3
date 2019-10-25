@@ -48,6 +48,9 @@ public class GameBoard {
 
     // p == null -> piece gets removed
     public void setPieceAtPosition(Piece p, Rank rank, File file) {
+        if (p != null) {
+            p.movePiece(rank, file);
+        }
         gameBoard[rank.getValue() - 1][file.getValue() - 1].setPiece(p);
     }
 

@@ -14,6 +14,10 @@ public class Player {
 	private ArrayList<Piece> eatenPieces = new ArrayList<>(); // eaten pieces
 
 
+	public Color getColor() {
+		return color;
+	}
+
 	public String getName() {
 		return name;
 	}
