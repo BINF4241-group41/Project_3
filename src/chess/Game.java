@@ -15,6 +15,8 @@ public class Game {
 
 	private Player nextPlayer; // can play next move
 
+	private Pawn pawnEligibleForEnPassant = null;
+
 
 	public boolean isFinished() {
 		return (winner != null);
@@ -164,6 +166,15 @@ public class Game {
 
 		Square destinationSquare = gameBoard.getSquareAtPosition(Rank.valueOf(Integer.valueOf(inputRank)), File.fromString(inputFile));
 
+		if (pawnEligibleForEnPassant != null && pieceString == "P") {
+			if (pawnEligibleForEnPassant.getRank() == Rank.valueOf(5)) {
+				gameBoard.setPieceAtPosition(pawnEligibleForEnPassant, Rank.valueOf(pawnEligibleForEnPassant.getRank().getValue() + 1), pawnEligibleForEnPassant.getFile());
+			}
+			else if (pawnEligibleForEnPassant.getRank() == Rank.valueOf(4)) {
+				gameBoard.setPieceAtPosition(pawnEligibleForEnPassant, Rank.valueOf(pawnEligibleForEnPassant.getRank().getValue() - 1), pawnEligibleForEnPassant.getFile());
+			}
+		}
+
 		// remove pieces which can't make this move
 		Iterator<Piece> iterator = matchedPieces.iterator();
 
@@ -173,12 +184,38 @@ public class Game {
 			}
 		}
 
+		if (pawnEligibleForEnPassant != null && pieceString == "P") {
+			if (pawnEligibleForEnPassant.getRank() == Rank.valueOf(6)) {
+				gameBoard.setPieceAtPosition(pawnEligibleForEnPassant, Rank.valueOf(pawnEligibleForEnPassant.getRank().getValue() -1), pawnEligibleForEnPassant.getFile());
+			}
+			else if (pawnEligibleForEnPassant.getRank() == Rank.valueOf(3)) {
+				gameBoard.setPieceAtPosition(pawnEligibleForEnPassant, Rank.valueOf(pawnEligibleForEnPassant.getRank().getValue() + 1), pawnEligibleForEnPassant.getFile());
+			}
+		}
+
 		// no pieces could be matched
 		if (matchedPieces.isEmpty()) {
 			return null;
 		}
 
 		if (matchedPieces.size() > 1) {
+
+			if (moveDescription.contains("x")) {
+				iterator = matchedPieces.iterator();
+
+				while (iterator.hasNext()) {
+					Piece nextPiece = iterator.next();
+					if (gameBoard.isPositionOccupied(destinationSquare.getRank(), destinationSquare.getFile())) {
+						continue;
+					}
+					else if (isEnPassant(nextPiece)) {
+						continue;
+					}
+					else {
+						iterator.remove();
+					}
+				}
+			}
 
 			File originFile = null;
 			Rank originRank = null;
@@ -199,18 +236,15 @@ public class Game {
 				originFile = File.fromString(originString.substring(0, originString.length() - 1));
 				originRank = Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1)));
 			}
-			else {
-				// special cases
-				return null;
-			}
 
 			iterator = matchedPieces.iterator();
 
 			while (iterator.hasNext()) {
-				if (iterator.next().getFile() != originFile) {
+				Piece nextPiece = iterator.next();
+				if (nextPiece.getFile() != originFile) {
 					iterator.remove();
 				}
-				if (originRank != null && iterator.next().getRank() != originRank) {
+				if (originRank != null && nextPiece.getRank() != originRank) {
 					iterator.remove();
 				}
 			}
@@ -240,6 +274,10 @@ public class Game {
 		// castling
 		if (moveDescription.contains("0-0")) {
 
+			if (isCheck(gameBoard, nextPlayer)) {
+				return false;
+			}
+
 			ArrayList<Piece> pieces = nextPlayer.getActivePieces();
 			King king = null;
 			Tower tower = null;
@@ -258,6 +296,7 @@ public class Game {
 
 			if (king != null && tower != null && !isCheck(this.gameBoard, this.nextPlayer)) {
 				if (king.canCastle(gameBoard.makeCopy(), tower)) {
+
 					if (moveDescription.equals("0-0")) { // kingside
 						nextPlayer.movePiece(king, king.getRank(), File.valueOf(7));
 						nextPlayer.movePiece(tower, tower.getRank(), File.valueOf(6));
@@ -280,6 +319,7 @@ public class Game {
 				this.winner = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
 			}
 
+			pawnEligibleForEnPassant = null;
 			return true;
 		}
 
@@ -303,6 +343,15 @@ public class Game {
 			gameBoard.setPieceAtPosition(null, destinationSquare.getRank(), destinationSquare.getFile()); // explicitly remove it
 		}
 
+		else if (isEnPassant(piece)) {
+			if (!moveDescription.contains("x")) {
+				return false;
+			}
+			Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+			otherPlayer.eatPiece(pawnEligibleForEnPassant.getRank(), pawnEligibleForEnPassant.getFile());
+			gameBoard.setPieceAtPosition(null, pawnEligibleForEnPassant.getRank(), pawnEligibleForEnPassant.getFile()); // explicitly remove it
+		}
+
 		// Promotion
 		if (moveDescription.matches(".*[TNBQ]")) {
 			inputRank = moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1); // 2nd character
@@ -313,6 +362,13 @@ public class Game {
 		}
 
 		else {
+			if (piece.getName() == "P" && Math.abs(piece.getRank().getValue() - destinationSquare.getRank().getValue()) == 2) {
+				pawnEligibleForEnPassant = (Pawn) piece;
+			}
+			else {
+				pawnEligibleForEnPassant = null;
+			}
+
 			gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
 			nextPlayer.movePiece(piece, destinationSquare.getRank(), destinationSquare.getFile());
 			gameBoard.setPieceAtPosition(piece.makeCopy(), destinationSquare.getRank(), destinationSquare.getFile());
@@ -327,6 +383,15 @@ public class Game {
 
 		return true;
 	}
+
+
+	private boolean isEnPassant(Piece p) {
+		if (pawnEligibleForEnPassant == null || p == null || p.getName() != "P") {
+			return false;
+		}
+		return (p.getRank() == pawnEligibleForEnPassant.getRank() || Math.abs(pawnEligibleForEnPassant.getRank().getValue() - p.getRank().getValue()) == 1);
+	}
+
 
 	// For pawn p, promote.
 	private void executePromotion(String promotionPieceName, Piece piece, Rank rank, File file) {

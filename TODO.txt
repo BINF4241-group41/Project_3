@@ -1,12 +1,4 @@
 
-Implement special moves (Promotion, Castle, ...):
-    - Implement actual move.
-    - en passant (Game needs memory for last move)
-
 (Check string input for check(mate) if it occurs.)
 
-Prevent king suicide.
-
-Implement checking for x if capture is made.
-
-Check if rank, file aren't null in Pieces constructors.
+Prevent king suicide (Execute all moves and then roll back, or check at beginning).
