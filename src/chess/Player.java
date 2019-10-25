@@ -33,6 +33,7 @@ public class Player {
 		}
 	}
 	
+	// used for promotion
 	public void removePiece(Piece p) {
 		if (p == null) {
 			return;

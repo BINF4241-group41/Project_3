@@ -262,17 +262,19 @@ public class Game {
 			return false;
 		}
 
-		boolean isPromotion = moveDescription.matches(".*[TNBQ]");
+		boolean isPromotion = moveDescription.matches(".*[TNBQ][+]?");
 		boolean isCheck = moveDescription.matches(".*[+]");
 		
 		String promotionString = "";
 
 		if (isPromotion || isCheck) {
+			if (isCheck) {
+				moveDescription = moveDescription.substring(0, moveDescription.length() - 1);
+			}
 			if (isPromotion) {
 				promotionString = moveDescription.substring(moveDescription.length() - 1);
-
+				moveDescription = moveDescription.substring(0, moveDescription.length() - 1);
 			}
-			moveDescription = moveDescription.substring(0, moveDescription.length() - 1);
 		}
 
 		// castling
@@ -371,9 +373,15 @@ public class Game {
 			if (wouldResultInCheck(boardCopy, piece, inputRank, inputFile) && !isCheck) {
 				return false;
 			}
+			if (!wouldResultInCheck(boardCopy, piece, inputRank, inputFile) && isCheck) {
+				return false;
+			}
 		}
 		else {
 			if (wouldResultInCheck(gameBoard, piece, inputRank, inputFile) && !isCheck) {
+				return false;
+			}
+			if (!wouldResultInCheck(gameBoard, piece, inputRank, inputFile) && isCheck) {
 				return false;
 			}
 		}
@@ -503,7 +511,6 @@ public class Game {
 		}
 		
 		Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
-		System.out.println(gameBoard.toString());
 		return isCheck(gameBoard, otherPlayer);
 	}
 

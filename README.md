@@ -10,9 +10,9 @@
 Input description:
 Piece you want to move (empty == Pawn).
 Origin (File (Rank)) if piece can't be determined otherwise.
-x if a capture is made (can be used to filter out pieces).
-+ at the end if a check occurs.
-Checkmate doesn't have to be indicated.
+x iff a capture is made (can be used to filter out pieces).
++ at the end iff a check occurs.
+Checkmate doesn't have to be specially indicated (just with +).
 
 
 Input examples:
