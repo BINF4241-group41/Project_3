@@ -32,6 +32,18 @@ public class Player {
 			activePieces.add(p.makeCopy());
 		}
 	}
+	
+	public void removePiece(Piece p) {
+		if (p == null) {
+			return;
+		}
+		for (Piece activePiece : activePieces) {
+			if (p.getRank() == activePiece.getRank() && p.getFile() == activePiece.getFile() && p.getName() == activePiece.getName()) {
+				activePieces.remove(activePiece);
+				return;
+			}
+		}
+	}
 
 	public boolean eatPiece(Rank rank, File file) {
 

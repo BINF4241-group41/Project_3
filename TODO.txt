@@ -1,4 +1,2 @@
 
-(Check string input for check(mate) if it occurs.)
-
-Method isCheck doesn't work correctly -> game can't be won.
+Checking for bugs (different moves, checkmate correctly working, ...).

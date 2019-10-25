@@ -58,7 +58,7 @@ public class King extends Piece {
             return false;
         }
 
-        for (int fileCounter = Math.min(this.file.getValue(), tower.getFile().getValue()); fileCounter < Math.max(this.file.getValue(), tower.getFile().getValue()); ++fileCounter) {
+        for (int fileCounter = Math.min(this.file.getValue(), tower.getFile().getValue()) + 1; fileCounter < Math.max(this.file.getValue(), tower.getFile().getValue()) - 1; ++fileCounter) {
 
             if (board.isPositionOccupied(this.rank, File.valueOf(fileCounter))) {
                 return false;
