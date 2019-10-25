@@ -131,7 +131,7 @@ public class Game {
 				return true;
 			}
 			// check
-			if (moveDescription.matches("[TNBQK]?[a-h]?[1-8]?x?[a-h][1-8]+") && !moveDescription.matches("[TNBQK]?[1-8]x?[a-h][1-8]+")) {
+			if (moveDescription.matches("[TNBQK]?[a-h]?[1-8]?x?[a-h][1-8][+]") && !moveDescription.matches("[TNBQK]?[1-8]x?[a-h][1-8][+]")) {
 				return true;
 			}
 			return false; // also no special case
@@ -343,8 +343,39 @@ public class Game {
 		Rank inputRank = Rank.valueOf(Integer.parseInt(moveDescription.substring(moveDescription.length() - 1))); // last character
 		File inputFile = File.fromString(moveDescription.substring(moveDescription.length() - 2, moveDescription.length() - 1)); // 2nd last character
 		
-		if (wouldResultInCheckmate(gameBoard, piece, inputRank, inputFile)) {
+		// move would result in check for nextPlayer -> other player can capture king
+		if (wouldResultInSelfCheck(gameBoard, piece, inputRank, inputFile)) {
 			return false;
+		}
+		
+		// check if move would result in check
+		if (isPromotion) {
+			
+			Piece newPiece = null;
+			if (promotionString.equals("Q")) {
+				newPiece = new Queen(piece.getColor(), inputRank, inputFile);
+			}
+			else if (promotionString.equals("T")) {
+				newPiece = new Tower(piece.getColor(), inputRank, inputFile);
+			} 
+			else if (promotionString.equals("N")) {
+				newPiece = new Knight(piece.getColor(), inputRank, inputFile);
+			}
+			else if (promotionString.equals("B")) {
+				newPiece = new Bishop(piece.getColor(), inputRank, inputFile);
+			}
+			
+			GameBoard boardCopy = this.gameBoard.makeCopy();
+			boardCopy.setPieceAtPosition(newPiece.makeCopy(), inputRank, inputFile);
+			
+			if (wouldResultInCheck(boardCopy, piece, inputRank, inputFile) && !isCheck) {
+				return false;
+			}
+		}
+		else {
+			if (wouldResultInCheck(gameBoard, piece, inputRank, inputFile) && !isCheck) {
+				return false;
+			}
 		}
 
 		// Piece gets eaten by piece who lands there
@@ -426,20 +457,20 @@ public class Game {
 			return; // error?
 		}
 
-		this.nextPlayer.eatPiece(rank, file);
+		this.nextPlayer.removePiece(piece);
 		this.gameBoard.setPieceAtPosition(null, rank, file);
-		this.nextPlayer.removePiece(newPiece);
 		this.nextPlayer.addPiece(newPiece);
 		this.gameBoard.setPieceAtPosition(newPiece, rank, file);
 	}
+	
 
 	public String toString() {
 		return gameBoard.toString();
 	}
 
 
-	// Returns true if executing this move for nextPlayer would result in a checkmate.
-	private boolean wouldResultInCheckmate(GameBoard gameBoard, Piece piece, Rank rank, File file) {
+	// Returns true if executing this move for nextPlayer would result in a checkmate for himself.
+	private boolean wouldResultInSelfCheck(GameBoard gameBoard, Piece piece, Rank rank, File file) {
 		if (piece == null) {
 			return false;
 		}
@@ -448,10 +479,31 @@ public class Game {
 		boardCopy.setPieceAtPosition(null, piece.getRank(), piece.getFile());
 		boardCopy.setPieceAtPosition(piece.makeCopy(), rank, file);
 		
+		// nextPlayer is checked
 		if (isCheck(boardCopy, nextPlayer)) {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	// Returns true if executing this move would set other player in check.
+	private boolean wouldResultInCheck(GameBoard gameBoard, Piece piece, Rank rank, File file) {
+		
+		gameBoard = gameBoard.makeCopy();
+		
+		if (isEnPassant(piece)) {
+			gameBoard.setPieceAtPosition(null, pawnEligibleForEnPassant.getRank(), pawnEligibleForEnPassant.getFile()); // explicitly remove it
+		}
+
+		else {
+			gameBoard.setPieceAtPosition(null, piece.getRank(), piece.getFile());
+			gameBoard.setPieceAtPosition(piece.makeCopy(), rank, file);
+		}
+		
+		Player otherPlayer = (nextPlayer == whitePlayer ? blackPlayer : whitePlayer);
+		System.out.println(gameBoard.toString());
+		return isCheck(gameBoard, otherPlayer);
 	}
 
 
