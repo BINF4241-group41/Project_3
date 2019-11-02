@@ -18,7 +18,7 @@ public class MainClass {
 		System.out.println("Enter the name of the black player.");
 		playerNames[1] = myScanner.nextLine();
 
-		myGame = new Game(playerNames);
+		myGame = Game.getInstance(playerNames);
 
 
 		System.out.println("\nStart state:");

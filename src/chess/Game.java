@@ -10,13 +10,17 @@ public class Game {
 	
 	private Player whitePlayer;
 	private Player blackPlayer;
-
+	private static Game game= null;
 	private Player winner = null;
 
 	private Player nextPlayer; // can play next move
 
 	private Pawn pawnEligibleForEnPassant = null;
 
+	public static Game getInstance(String[] playerNames) {
+		if(game==null) game=new Game(playerNames);
+		return game;
+	}
 
 	public boolean isFinished() {
 		return (winner != null);
@@ -30,7 +34,7 @@ public class Game {
 		return (winner != null ? winner.getName() : null);
 	}
 
-	public Game(String[] playerNames) {
+	private Game(String[] playerNames) {
 		
 		whitePlayer = new Player(Color.WHITE, (playerNames.length > 0 ? playerNames[0] : "white"));
 		blackPlayer = new Player(Color.BLACK, (playerNames.length > 1 ? playerNames[1] : "black"));
