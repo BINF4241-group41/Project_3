@@ -16,14 +16,14 @@ I got an arraylist with all the pieces and put them in the Iterator of type "Pie
 <br/>
 <br/>
 <br/>
-Part 3 (Functionality 1: Superqueen, Archbishop)
+Part 3 (Functionality 1: Superqueen, Archbishop)\
 <br/>
 __Input Format__\
 The input is the same as before:
 Piece you want to move (empty == Pawn).
 Origin (File (Rank)) if piece can't be determined otherwise.
 x iff a capture is made (can be used to filter out pieces).
-+ at the end iff a check occurs.
+"+" at the end iff a check occurs.
 Checkmate doesn't have to be specially indicated (just with +).
 Input examples:
 - Move Pawn to e5: e5
