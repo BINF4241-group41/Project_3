@@ -33,10 +33,10 @@ Input examples:
 - Queen captures piece on field a1: Qxa1
 - Queen will set King to check at position a5: Qa5+
 <br/>
-__Code__ __Changes__
+####Code Changes####
 When initialiting the gameBoard, the code to create the queens and bishops was commented out, and new code to initialize the new non-standard pieces and their adapters was inserted. No other changes were made.
 <br/>
-__Implementation__ __Choices__
+####Implementation Choices####
 Both non-standard pieces do not inherit from Piece like the standard pieces, and the field names and methods have been changed to reflect this. The adapters are Pieces and are used to adapt the interface of the new pieces to the one of the abstract Piece class, which is used by the other classes.
-SuperQueen has the methods teleportPiece() and isTeleportAllowed() instead of movePiece() and isMoveAllowed(). SuperQueenAdapter is the adapter that corresponds to SuperQueen.
-ArchBishop has the methods gallopToPosition() and isGallopAllowed() instead of movePiece() and isMoveAllowed(). ArchBishopAdapter is the adapter that corresponds to ArchBishop.
+SuperQueen has the methods teleportPiece() and isTeleportAllowed() instead of movePiece() and isMoveAllowed(). SuperQueenAdapter is the adapter that corresponds to SuperQueen.<br/>
+ArchBishop has the methods gallopToPosition() and isGallopAllowed() instead of movePiece() and isMoveAllowed(). ArchBishopAdapter is the adapter that corresponds to ArchBishop.<br/>
