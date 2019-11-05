@@ -87,17 +87,25 @@ public class Game {
 		gameBoard.setPieceAtPosition(blackKnight.makeCopy(), Rank.valueOf(8), File.valueOf(7));
 		blackPlayer.addPiece(blackKnight);
 
-		Bishop whiteBishop = new Bishop(Color.WHITE, Rank.valueOf(1), File.valueOf(3));
+		//Bishop whiteBishop = new Bishop(Color.WHITE, Rank.valueOf(1), File.valueOf(3));
+		ArchBishop whiteArchBishop = new ArchBishop(Color.WHITE, Rank.valueOf(1), File.valueOf(3));
+		ArchBishopAdapter whiteBishop = new ArchBishopAdapter(whiteArchBishop);
 		gameBoard.setPieceAtPosition(whiteBishop.makeCopy(), Rank.valueOf(1), File.valueOf(3));
 		whitePlayer.addPiece(whiteBishop);
-		whiteBishop = new Bishop(Color.WHITE, Rank.valueOf(1), File.valueOf(6));
+		//whiteBishop = new Bishop(Color.WHITE, Rank.valueOf(1), File.valueOf(6));
+		whiteArchBishop = new ArchBishop(Color.WHITE, Rank.valueOf(1), File.valueOf(6));
+		whiteBishop = new ArchBishopAdapter(whiteArchBishop);
 		gameBoard.setPieceAtPosition(whiteBishop.makeCopy(), Rank.valueOf(1), File.valueOf(6));
 		whitePlayer.addPiece(whiteBishop);
 
-		Bishop blackBishop = new Bishop(Color.BLACK, Rank.valueOf(8), File.valueOf(3));
+		//Bishop blackBishop = new Bishop(Color.BLACK, Rank.valueOf(8), File.valueOf(3));
+		ArchBishop blackArchBishop = new ArchBishop(Color.BLACK, Rank.valueOf(8), File.valueOf(3));
+		ArchBishopAdapter blackBishop = new ArchBishopAdapter(blackArchBishop);
 		gameBoard.setPieceAtPosition(blackBishop.makeCopy(), Rank.valueOf(8), File.valueOf(3));
 		blackPlayer.addPiece(blackBishop);
-		blackBishop = new Bishop(Color.BLACK, Rank.valueOf(8), File.valueOf(6));
+		//blackBishop = new Bishop(Color.BLACK, Rank.valueOf(8), File.valueOf(6));
+		blackArchBishop = new ArchBishop(Color.BLACK, Rank.valueOf(8), File.valueOf(6));
+		blackBishop = new ArchBishopAdapter(blackArchBishop);
 		gameBoard.setPieceAtPosition(blackBishop.makeCopy(), Rank.valueOf(8), File.valueOf(6));
 		blackPlayer.addPiece(blackBishop);
 
