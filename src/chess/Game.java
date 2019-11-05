@@ -101,11 +101,15 @@ public class Game {
 		gameBoard.setPieceAtPosition(blackBishop.makeCopy(), Rank.valueOf(8), File.valueOf(6));
 		blackPlayer.addPiece(blackBishop);
 
-		Queen whiteQueen = new Queen(Color.WHITE, Rank.valueOf(1), File.valueOf(4));
+		//Queen whiteQueen = new Queen(Color.WHITE, Rank.valueOf(1), File.valueOf(4)); // old code
+		SuperQueen whiteSuperQueen = new SuperQueen(Color.WHITE, Rank.valueOf(1), File.valueOf(4));
+		SuperQueenAdapter whiteQueen = new SuperQueenAdapter(whiteSuperQueen);
 		gameBoard.setPieceAtPosition(whiteQueen.makeCopy(), Rank.valueOf(1), File.valueOf(4));
 		whitePlayer.addPiece(whiteQueen);
 
-		Queen blackQueen = new Queen(Color.BLACK, Rank.valueOf(8), File.valueOf(4));
+		//Queen blackQueen = new Queen(Color.BLACK, Rank.valueOf(8), File.valueOf(4));
+		SuperQueen blackSuperQueen = new SuperQueen(Color.BLACK, Rank.valueOf(8), File.valueOf(4));
+		SuperQueenAdapter blackQueen = new SuperQueenAdapter(blackSuperQueen);
 		gameBoard.setPieceAtPosition(blackQueen.makeCopy(), Rank.valueOf(8), File.valueOf(4));
 		blackPlayer.addPiece(blackQueen);
 
