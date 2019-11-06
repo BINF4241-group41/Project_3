@@ -37,7 +37,7 @@ Input examples:
 - Queen will set King to check at position a5: Qa5+
 <br/>
 <br/>
-**Code Changes**
+#Code Changes
 <br/>
 When initialiting the gameBoard, the code to create the queens and bishops was commented out, and new code to initialize the new non-standard pieces and their adapters was inserted. No other changes were made.
 <br/>
