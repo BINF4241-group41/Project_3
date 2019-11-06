@@ -12,7 +12,7 @@ public class Game {
 	private Player blackPlayer;
 	private static Game game= null;
 	private Player winner = null;
-
+	private CollectionPiece iterator=null;
 	private Player nextPlayer; // can play next move
 
 	private Pawn pawnEligibleForEnPassant = null;
@@ -40,7 +40,7 @@ public class Game {
 		blackPlayer = new Player(Color.BLACK, (playerNames.length > 1 ? playerNames[1] : "black"));
 
 		gameBoard = new GameBoard();
-
+		iterator=new CollectionPiece();
 		piecesSetup();
 		nextPlayer = whitePlayer;
 	}
@@ -190,7 +190,8 @@ public class Game {
 		}
 
 		// remove pieces which can't make this move
-		Iterator<Piece> iterator = matchedPieces.iterator();
+		//Iterator<Piece> iterator = matchedPieces.iterator();
+		iterator.get(matchedPieces);
 
 		while (iterator.hasNext()) {
 			if (!iterator.next().isMoveAllowed(this.gameBoard, inputRank, inputFile)) {
@@ -215,7 +216,7 @@ public class Game {
 		if (matchedPieces.size() > 1) {
 
 			if (moveDescription.contains("x")) {
-				iterator = matchedPieces.iterator();
+				iterator.get(matchedPieces);
 
 				while (iterator.hasNext()) {
 					Piece nextPiece = iterator.next();
@@ -251,7 +252,7 @@ public class Game {
 				originRank = Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1)));
 			}
 
-			iterator = matchedPieces.iterator();
+			iterator.get(matchedPieces);
 
 			while (iterator.hasNext()) {
 				Piece nextPiece = iterator.next();
