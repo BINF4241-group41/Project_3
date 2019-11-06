@@ -21,7 +21,7 @@ I got an arraylist with all the pieces and put them in the Collection, which imp
 <br/>
 Part 3 (Functionality 1: Superqueen, Archbishop) <br/>
 <br/>
-__Input Format__ <br/>
+**Input Format**<br/>
 The input is the same as before:
 Piece you want to move (empty == Pawn).
 Origin (File (Rank)) if piece can't be determined otherwise.
@@ -37,7 +37,7 @@ Input examples:
 - Queen will set King to check at position a5: Qa5+
 <br/>
 <br/>
-Code Changes
+**Code Changes**
 <br/>
 When initialiting the gameBoard, the code to create the queens and bishops was commented out, and new code to initialize the new non-standard pieces and their adapters was inserted. No other changes were made.
 <br/>
