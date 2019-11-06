@@ -1,6 +1,6 @@
-Part 1\
+<h2>Part 1</h2>
 <br/>
-__Singleton__\
+<h3>Singleton</h3>
 Why?\
 I decided to use the singleton pattern in the game class. I thought it's one of the most important classes in the project because without it the entire game doesn't start. I used the singleton to instantiate the Game class in order to prevent multiple instances, because otherwise we could run the application with two (or more) games in parallel.\
 How?\
@@ -8,7 +8,7 @@ I created a static instance of game in the Game class, I changed the constructor
 ![class_diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction1ClassDiagramm_Cattura.PNG)
 ![sequence diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstuction1Se.PNG)
 <br/>
-__Iterator__\
+<h3>Iterator</h3>
 Why?\
 As for my second pattern, I used the Iterator pattern, because it's the pattern that fits the most in my case. I used that in the Game class as well. In the 'identifyPiece' method there is a part which searches for all the pieces that can do a certain move, thus the easyest way to do that is implementing an iterator pattern. It iterates with collection.hasnext() and takes the next element with collection.next().
 How?\
@@ -19,9 +19,9 @@ I got an arraylist with all the pieces and put them in the Collection, which imp
 <br/>
 <br/>
 <br/>
-Part 3 (Functionality 1: Superqueen, Archbishop) <br/>
+<h2>Part 3 (Functionality 1: Superqueen, Archbishop)</h2> <br/>
 <br/>
-**Input Format**<br/>
+<h3>Input Format</h3><br/>
 The input is the same as before:
 Piece you want to move (empty == Pawn).
 Origin (File (Rank)) if piece can't be determined otherwise.
@@ -37,7 +37,7 @@ Input examples:
 - Queen will set King to check at position a5: Qa5+
 <br/>
 <br/>
-<h2>Code Changes</h2>
+<h3>Code Changes</h3>
 <br/>
 When initialiting the gameBoard, the code to create the queens and bishops was commented out, and new code to initialize the new non-standard pieces and their adapters was inserted. No other changes were made.
 <br/>
