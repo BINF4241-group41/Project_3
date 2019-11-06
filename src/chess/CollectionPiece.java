@@ -18,7 +18,7 @@ public class CollectionPiece implements Iterator<Piece>{
 	
 	@Override
 	public boolean hasNext() {
-		if((piece.indexOf(this)+1)<=piece.size())return true;
+    	if(currentIndex+1<piece.size())return true;
 		return false;
 	}
 
