@@ -5,8 +5,6 @@ Why?<br/>
 I decided to use the singleton pattern in the game class. I thought it's one of the most important classes in the project because without it the entire game doesn't start. I used the singleton to instantiate the Game class in order to prevent multiple instances, because otherwise we could run the application with two (or more) games in parallel.<br/>
 How?<br/>
 I created a static instance of game in the Game class, I changed the constructor to private and afterwards created a new static method to instantiate the class or return the already instance of the class. In the main class, where the class is instantiated, I changed the normal constructor with a static call for the Game class.
-![class_diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction1ClassDiagramm_Cattura.PNG)
-![sequence diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstuction1Se.PNG)
 <p align="center">
   <img src="https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction1ClassDiagramm_Cattura.PNG" width="350">
   <img src="https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstuction1Se.PNG" width="350">
@@ -17,9 +15,10 @@ Why?<br/>
 As for my second pattern, I used the Iterator pattern, because it's the pattern that fits the most in my case. I used that in the Game class as well. In the 'identifyPiece' method there is a part which searches for all the pieces that can do a certain move, thus the easyest way to do that is implementing an iterator pattern. It iterates with collection.hasnext() and takes the next element with collection.next().
 How?<br/>
 I got an arraylist with all the pieces and put them in the Collection, which implement the iterator of type Piece. Afterwards, I used the Iterator methods to loop through them and get the next element.
-![class_diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction2ClassDia.PNG)
-![sequence diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction2Se.PNG)
-
+<p align="center">
+  <img src="https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction2ClassDia.PNG" width="350">
+  <img src="https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction2Se.PNG" width="350">
+</p>
 <br/>
 <br/>
 <br/>
