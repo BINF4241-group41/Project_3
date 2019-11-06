@@ -19,9 +19,9 @@ I got an arraylist with all the pieces and put them in the Collection, which imp
 <br/>
 <br/>
 <br/>
-Part 3 (Functionality 1: Superqueen, Archbishop)\
+Part 3 (Functionality 1: Superqueen, Archbishop) <br/>
 <br/>
-__Input Format__\
+__Input Format__<br/>
 The input is the same as before:
 Piece you want to move (empty == Pawn).
 Origin (File (Rank)) if piece can't be determined otherwise.
