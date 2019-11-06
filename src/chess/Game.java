@@ -190,8 +190,7 @@ public class Game {
 		}
 
 		// remove pieces which can't make this move
-		//Iterator<Piece> iterator = matchedPieces.iterator();
-		iterator.get(matchedPieces);
+		iterator.get((ArrayList<Piece>)matchedPieces.clone());
 
 		while (iterator.hasNext()) {
 			if (!iterator.next().isMoveAllowed(this.gameBoard, inputRank, inputFile)) {
@@ -216,7 +215,7 @@ public class Game {
 		if (matchedPieces.size() > 1) {
 
 			if (moveDescription.contains("x")) {
-				iterator.get(matchedPieces);
+				iterator.get((ArrayList<Piece>)matchedPieces.clone());
 
 				while (iterator.hasNext()) {
 					Piece nextPiece = iterator.next();
@@ -252,7 +251,7 @@ public class Game {
 				originRank = Rank.valueOf(Integer.valueOf(originString.substring(originString.length() - 1)));
 			}
 
-			iterator.get(matchedPieces);
+			iterator.get((ArrayList<Piece>)matchedPieces.clone());
 
 			while (iterator.hasNext()) {
 				Piece nextPiece = iterator.next();

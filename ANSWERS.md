@@ -10,9 +10,12 @@ I created a static instance of game in the Game class, I changed the constructor
 <br/>
 __Iterator__\
 Why?\
-As for my second pattern, I used the Iterator pattern, because it's the pattern that fits the most in my case. I used that in the Game class as well. In the 'identifyPiece' method there is a part which searches for all the pieces that can do a certain move, thus the easy way to do that is implimenting a iterator pattern. It iterates with iterator.hasnext() and takes the next element with iterator.next(). The this element gets used.
+As for my second pattern, I used the Iterator pattern, because it's the pattern that fits the most in my case. I used that in the Game class as well. In the 'identifyPiece' method there is a part which searches for all the pieces that can do a certain move, thus the easyest way to do that is implementing an iterator pattern. It iterates with collection.hasnext() and takes the next element with collection.next().
 How?\
-I got an arraylist with all the pieces and put them in the Iterator of type "Piece". Afterwards I used the Iterator methods to loop through them and get the next element.
+I got an arraylist with all the pieces and put them in the Collection, which implement the iterator of type Piece. Afterwards, I used the Iterator methods to loop through them and get the next element.
+![class_diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction2ClassDia.PNG)
+![sequence diagram](https://github.com/BINF4241-group41/Project_3/blob/master/images/SoftwareConstruction2Se.PNG)
+
 <br/>
 <br/>
 <br/>
