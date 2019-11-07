@@ -23,10 +23,6 @@ I got an arraylist with all the pieces and put them in the Collection, which imp
 <br/>
 <h2>Part 2</h2>
 
-<p align="center">
-  <img src="https://github.com/BINF4241-group41/Project_3/blob/master/images/Part2.PNG" width="350">
-</p>
-
 ![part2](https://github.com/BINF4241-group41/Project_3/blob/master/images/Part2.PNG)
 
 The first sequence is the constuctor and then in the second one is the makecopy() method. These are the 2 most import parts of the GameBoard class.
