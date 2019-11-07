@@ -21,6 +21,9 @@ I got an arraylist with all the pieces and put them in the Collection, which imp
 </p>
 <br/>
 <br/>
+<h2>Part 2</h2>
+<img src="https://github.com/BINF4241-group41/Project_3/tree/master/images/Part2.PNG" width="350"><br/>
+The first sequence is the constuctor and then in the second one is the makecopy() method. These are the 2 most import parts of the GameBoard class.
 <br/>
 <h2>Part 3 (Functionality 1: Superqueen, Archbishop)</h2> <br/>
 <br/>
